@@ -1,0 +1,595 @@
+<title>Nikol Mard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one brand, two sides. Shared Warm Sand base; the Chief of Staff side leans on Deep Forest + Sunset Orange, the Beneath the Role side on Twilight Violet + Magenta Dusk. The logo's concentric rings become the "role / patterns / person" diagram in the hero. Single light theme by design, from Nikol's palette sheet. */
+:root {
+  color-scheme: light;
+  --forest: #1F3A2B;      /* Deep Forest: headings, dark sections */
+  --green: #096843;       /* Shirt Green: buttons, links */
+  --logo-mid: #2AA830;    /* Logo Mid Green: decorative only */
+  --logo-light: #5DCB62;  /* Logo Light Green: decorative only */
+  --logo-deep: #0D5210;   /* Logo Deep Green */
+  --orange: #F0803C;      /* Sunset Orange: CoS accent, dark text on it */
+  --violet: #6A4C93;      /* Twilight Violet: Beneath the Role */
+  --magenta: #C23A7A;     /* Magenta Dusk: BtR highlight, white text on it */
+  --sand: #F6EEDF;        /* Warm Sand: page */
+  --card: #F8F8F6;        /* Logo Off-White: cards */
+  --slate: #2B2F33;       /* Cliff Slate: body text */
+  --muted: #555A5E;
+  --line: #E0D5C1;
+  --violet-tint: #EFE6EC;
+  --violet-line: #D9CADB;
+  --font-display: "Young Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --step--1: 0.82rem;
+  --step-0: 1.05rem;
+  --step-1: 1.3rem;
+  --step-2: 1.7rem;
+  --step-3: clamp(2rem, 4.4vw, 2.9rem);
+  --step-4: clamp(2.5rem, 6.4vw, 4.4rem);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--sand);
+  color: var(--slate);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
+}
+.wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; color: var(--forest); text-wrap: balance; line-height: 1.14; margin: 0; }
+p, ul, ol { margin: 0; }
+a { color: var(--green); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 2px; }
+.label {
+  font-family: var(--font-mono); font-size: var(--step--1);
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+}
+.ph { color: #8A4A12; border-bottom: 1px dashed #8A4A12; }
+.prose { display: grid; gap: 1.05em; max-width: 64ch; }
+.sec-head { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 52px); max-width: 760px; }
+.sec-head h2 { font-size: var(--step-3); }
+.sec-head .intro { font-size: var(--step-1); line-height: 1.5; font-weight: 300; color: var(--slate); }
+section { padding-block: clamp(64px, 9vw, 108px); }
+
+/* buttons */
+.btn {
+  display: inline-block; padding: 13px 22px; font: 600 0.95rem var(--font-body);
+  text-decoration: none; border: 2px solid var(--green); cursor: pointer; border-radius: 999px;
+  background: transparent; color: var(--green);
+}
+.btn.primary { background: var(--green); color: #fff; }
+.btn.primary:hover { background: var(--forest); border-color: var(--forest); }
+.btn:hover { background: var(--green); color: #fff; }
+.btn.warm { background: var(--orange); border-color: var(--orange); color: var(--forest); }
+.btn.warm:hover { background: var(--forest); border-color: var(--forest); color: var(--sand); }
+.btn.dusk { background: var(--magenta); border-color: var(--magenta); color: #fff; }
+.btn.dusk:hover { background: var(--violet); border-color: var(--violet); }
+
+/* header */
+header.top { border-bottom: 1px solid var(--line); background: var(--sand); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 16px; }
+.mark { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.mark svg { width: 34px; height: 34px; flex: none; }
+.mark span { font-family: var(--font-body); font-weight: 700; letter-spacing: 0.14em; font-size: 0.95rem; color: var(--logo-deep); }
+nav ul { list-style: none; padding: 0; display: flex; gap: 22px; flex-wrap: wrap; }
+nav a { color: var(--slate); text-decoration: none; font-size: 0.95rem; }
+nav a:hover { color: var(--green); }
+
+/* hero */
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 64px); align-items: center; padding-block: clamp(56px, 9vw, 112px) clamp(48px, 7vw, 88px); }
+.hero-text { display: grid; gap: 26px; }
+.hero h1 { font-size: var(--step-4); letter-spacing: -0.01em; }
+.hero h1 em { font-style: normal; color: var(--green); }
+.hero .lede { font-size: var(--step-1); line-height: 1.5; font-weight: 300; max-width: 42ch; }
+.ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px 28px; padding-top: 6px; }
+.facts div { display: grid; }
+.facts b { font-family: var(--font-display); font-weight: 400; font-size: var(--step-2); color: var(--forest); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.facts span { font-size: 0.85rem; color: var(--muted); }
+.rings { max-width: 100%; width: 100%; height: auto; display: block; }
+.rings text { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+@media (prefers-reduced-motion: no-preference) {
+  .ring { transform-origin: 210px 210px; animation: breathe 9s ease-in-out infinite; }
+  .ring.r2 { animation-delay: -3s; }
+  .ring.r3 { animation-delay: -6s; }
+  @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025); } }
+}
+
+/* belief */
+.belief { background: var(--forest); color: var(--sand); }
+.belief .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(32px, 6vw, 80px); }
+.belief h2 { color: var(--sand); font-size: var(--step-3); }
+.belief .label { color: #C9D3C6; }
+.belief p { color: #E9E2D3; }
+.belief .prose p:last-child { color: var(--sand); font-family: var(--font-display); font-size: var(--step-1); line-height: 1.4; }
+
+/* doors */
+.doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.door { background: var(--card); padding: clamp(28px, 4vw, 44px); display: grid; gap: 16px; align-content: start; min-width: 0; border-top: 6px solid var(--orange); }
+.door.btr { border-top-color: var(--violet); }
+.door h3 { font-size: var(--step-2); }
+.door.btr h3 { color: var(--violet); }
+.door .who { font-weight: 600; color: var(--forest); }
+.door p { color: var(--slate); }
+.door .go { margin-top: 6px; }
+
+/* CoS */
+.cos { border-top: 1px solid var(--line); }
+.story { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); align-items: start; }
+.story .prose p { color: var(--slate); }
+.thought { background: var(--card); padding: 28px; border-left: 4px solid var(--orange); font-family: var(--font-display); font-size: var(--step-1); line-height: 1.45; color: var(--forest); }
+.thought small { display: block; margin-top: 12px; font-family: var(--font-body); font-size: 0.88rem; color: var(--muted); }
+.steps-head { margin-top: clamp(56px, 8vw, 88px); }
+.steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; counter-reset: step; }
+.steps li { counter-increment: step; display: grid; gap: 10px; align-content: start; padding-top: 18px; border-top: 2px solid var(--forest); }
+.steps li::before { content: "Step " counter(step); font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); }
+.steps h3 { font-size: var(--step-1); }
+.cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.case { background: var(--card); padding: 28px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.case .solves { font-size: 0.9rem; color: var(--muted); font-style: italic; }
+.case h3 { font-size: var(--step-1); }
+.case .where { font-family: var(--font-mono); font-size: var(--step--1); color: var(--green); letter-spacing: 0.04em; }
+.case .result { font-weight: 600; color: var(--forest); }
+.asks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.asks div { display: grid; gap: 8px; align-content: start; }
+.asks h3 { font-family: var(--font-body); font-weight: 700; font-size: var(--step-0); color: var(--forest); }
+.asks p { color: var(--muted); font-size: 0.97rem; }
+.subhead { margin: clamp(56px, 8vw, 88px) 0 28px; display: grid; gap: 10px; }
+.subhead h3 { font-size: var(--step-2); }
+
+/* Beneath the Role */
+.btr-sec { background: var(--violet-tint); border-top: 6px solid transparent; border-image: linear-gradient(90deg, var(--orange), var(--magenta), var(--violet)) 1; }
+.btr-sec h2, .btr-sec h3 { color: var(--violet); }
+.btr-sec .label { color: #6B5A70; }
+.manifesto { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); align-items: start; }
+.big-q { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.3; color: var(--violet); }
+.stats { display: grid; gap: 0; border-top: 1px solid var(--violet-line); }
+.stat { display: grid; grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr); gap: 14px; padding-block: 16px; border-bottom: 1px solid var(--violet-line); align-items: baseline; }
+.stat b { font-family: var(--font-display); font-weight: 400; font-size: var(--step-2); color: var(--magenta); line-height: 1; font-variant-numeric: tabular-nums; }
+.stat p { font-size: 0.95rem; }
+.stat cite { display: block; font-style: normal; font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+.principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 28px; }
+.principle { display: grid; gap: 8px; align-content: start; }
+.principle h3 { font-family: var(--font-body); font-weight: 700; font-size: var(--step-0); color: var(--violet); line-height: 1.35; }
+.principle p { color: var(--muted); font-size: 0.97rem; }
+.tiers { display: grid; gap: 36px; }
+.tier { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 24px; }
+.tier-head { display: grid; gap: 6px; align-content: start; }
+.tier-head h3 { font-size: var(--step-1); }
+.tier-head p { color: var(--muted); font-size: 0.95rem; }
+.offers { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 16px; }
+.offer { background: var(--card); padding: 22px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.offer h4 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; color: var(--forest); }
+.offer .fmt { font-family: var(--font-mono); font-size: 0.76rem; color: var(--violet); letter-spacing: 0.02em; }
+.offer p { font-size: 0.93rem; color: var(--slate); }
+.offer.flag { outline: 2px solid var(--magenta); outline-offset: -2px; }
+.offer .tag { justify-self: start; background: var(--magenta); color: #fff; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; }
+
+/* draw on */
+.draw { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(32px, 6vw, 72px); }
+.modalities { border-top: 1px solid var(--line); }
+.modality { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); gap: 16px; padding-block: 16px; border-bottom: 1px solid var(--line); }
+.modality h3 { font-family: var(--font-body); font-weight: 700; font-size: var(--step-0); }
+.modality p { color: var(--muted); }
+.note { font-size: 0.9rem; color: var(--muted); border-left: 3px solid var(--orange); padding-left: 14px; }
+
+/* about */
+.about { border-top: 1px solid var(--line); }
+.about-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: clamp(32px, 6vw, 80px); align-items: start; }
+.portrait { aspect-ratio: 4 / 5; max-width: 100%; background: var(--card); border: 1px dashed #B9AE98; display: grid; place-items: center; text-align: center; padding: 24px; color: var(--muted); font-family: var(--font-mono); font-size: var(--step--1); }
+.pull { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.3; color: var(--forest); }
+.timeline { margin-top: clamp(48px, 7vw, 72px); border-top: 1px solid var(--line); }
+.role { display: grid; grid-template-columns: minmax(0, 10rem) minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+.role .yrs { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.role h3 { font-family: var(--font-body); font-weight: 700; font-size: var(--step-0); }
+.role h3 span { font-weight: 400; color: var(--muted); }
+.role p { color: var(--muted); font-size: 0.97rem; }
+.creds { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.creds ul { margin-top: 10px; padding-left: 1.1em; display: grid; gap: 6px; font-size: 0.97rem; }
+
+/* contact */
+.contact { background: var(--forest); color: var(--sand); }
+.contact h2 { color: var(--sand); font-size: var(--step-3); max-width: 20ch; }
+.contact .label { color: #C9D3C6; }
+.contact-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); align-items: end; }
+.contact p { color: #E9E2D3; max-width: 54ch; }
+.email-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.email { font-family: var(--font-mono); font-size: var(--step-0); color: var(--sand); user-select: all; word-break: break-all; }
+.contact a { color: #9FE0A3; }
+.contact .btn.warm:hover { background: var(--sand); border-color: var(--sand); color: var(--forest); }
+footer { padding-block: 26px; color: var(--muted); font-size: 0.85rem; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .hero .wrap, .belief .wrap, .doors, .story, .manifesto, .draw, .about-grid, .contact-grid { grid-template-columns: minmax(0, 1fr); }
+  .steps, .asks, .creds { grid-template-columns: minmax(0, 1fr); }
+  .cases { grid-template-columns: minmax(0, 1fr); }
+  .tier { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .rings { max-width: 380px; }
+  .portrait { max-width: 300px; }
+  nav ul { gap: 14px; }
+}
+@media (max-width: 520px) {
+  .modality, .role { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .stat { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="Nikol Mard, home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="#5DCB62" stroke-width="3"/><circle cx="20" cy="20" r="11.5" fill="none" stroke="#2AA830" stroke-width="3"/><circle cx="20" cy="20" r="5" fill="#0D5210"/></svg>
+      <span>NIKOL MARD</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#chief-of-staff">Chief of Staff</a></li>
+        <li><a href="#beneath-the-role">Beneath the Role</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-text">
+        <span class="label">People-first Chief of Staff · Coach · Facilitator · Oslo</span>
+        <h1>Great business, with great people, <em>feeling good about it.</em></h1>
+        <p class="lede">I connect strategy, operations and people for founders who are scaling. And I help leaders and teams look beneath the role they play, to the person who is actually leading.</p>
+        <div class="ctas">
+          <a class="btn warm" href="#chief-of-staff">For founders &amp; leaders</a>
+          <a class="btn dusk" href="#beneath-the-role">Beneath the Role</a>
+        </div>
+        <div class="facts" aria-label="At a glance">
+          <div><b>15+</b><span>years inside organisations</span></div>
+          <div><b>500+</b><span>leaders worked with</span></div>
+          <div><b>20 → 10,000</b><span>company sizes</span></div>
+        </div>
+      </div>
+      <svg class="rings" viewBox="0 0 420 420" role="img" aria-label="Three rings: the role on the outside, the patterns in the middle, the person at the centre">
+        <circle class="ring r1" cx="210" cy="210" r="180" fill="none" stroke="#5DCB62" stroke-width="22"/>
+        <circle class="ring r2" cx="210" cy="210" r="118" fill="none" stroke="#2AA830" stroke-width="22"/>
+        <circle class="ring r3" cx="210" cy="210" r="48" fill="#0D5210"/>
+        <text x="210" y="52" text-anchor="middle" fill="#1F3A2B">The role</text>
+        <text x="210" y="114" text-anchor="middle" fill="#1F3A2B">The patterns</text>
+        <text x="210" y="279" text-anchor="middle" fill="#1F3A2B">The person</text>
+      </svg>
+    </div>
+  </div>
+
+  <section class="belief">
+    <div class="wrap">
+      <div style="display:grid; gap:14px; align-content:start">
+        <span class="label">What I believe</span>
+        <h2>It doesn't have to be this way.</h2>
+      </div>
+      <div class="prose">
+        <p>I've worked in companies of fewer than 20 people and more than 10,000, in Norway, Ireland and Czechia, with remote teams across Asia and the Americas. Tech, manufacturing, energy, non-profit and startups. They all had one thing in common: information didn't reach the right people at the right time in the right format. That broke trust. Broken trust led to bottlenecks, delays, costly mistakes and burnout.</p>
+        <p>I was told that's just the way companies are. That managing impressions is smart, that leaders need to be ruthless, that "divide and conquer" is a valid strategy.</p>
+        <p>We don't need to choose between being human and being professional. We don't need to deliver results at the cost of our wellbeing. And we don't need to be pitted against each other to succeed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Two ways to work with me</span>
+        <h2>Same belief underneath: people are the business.</h2>
+      </div>
+      <div class="doors">
+        <article class="door">
+          <span class="label">Fractional · for founders &amp; scaling companies</span>
+          <h3>People-first Chief of Staff</h3>
+          <p class="who">You have the vision. The business needs the connecting tissue.</p>
+          <p>I get what's in your head out, structured and shared, and build the rhythms that keep your team aligned, so you can focus on growth without losing sight of your people.</p>
+          <a class="btn warm go" href="#chief-of-staff">How I work as Chief of Staff</a>
+        </article>
+        <article class="door btr">
+          <span class="label">Coaching &amp; facilitation · individuals, teams, organisations</span>
+          <h3>Beneath the Role</h3>
+          <p class="who">For leaders who want teams built on real connection, and know that starts with knowing yourself.</p>
+          <p>Self-awareness work that goes deeper than frameworks: what shaped you, which patterns you carry, and how they show up in the way you lead.</p>
+          <a class="btn dusk go" href="#beneath-the-role">Explore Beneath the Role</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cos" id="chief-of-staff">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">People-first Chief of Staff</span>
+        <h2>Stop wishing you could clone yourself.</h2>
+        <p class="intro">It's all in your head. My job is to get it out: structured, shared, and running without you having to explain it every time.</p>
+      </div>
+
+      <div class="story">
+        <div class="prose">
+          <p>Your company is growing fast. What worked as unspoken rules in a small team now needs to become process. New people join, meetings multiply, and following up becomes impossible. Things fall through the cracks, and there's a nagging feeling that you've forgotten something.</p>
+          <p>The new leadership hire hasn't had enough of your time. The board deck is ready, but one department head's input is half-cooked because you only exchanged a couple of messages. Your people matter to you, but you rarely have time for more than a quick chat. So you put on a brave face and add "people development" to the list for when things calm down. They never do.</p>
+          <p>Doing everything yourself creates a bottleneck. Delegating everything means you lose the overview. More headcount doesn't fix it, and AI can automate the back end but not people working with people. What's missing is the connecting tissue across strategy, operations and people.</p>
+        </div>
+        <div class="thought">
+          "I wish there was someone who could pick up all the pieces, someone who can be in the rooms I can't be in, someone with whom I don't have to pretend I'm on top of everything."
+          <small>The thought that usually comes right before a founder calls me.</small>
+        </div>
+      </div>
+
+      <div class="subhead steps-head">
+        <span class="label">If I started tomorrow</span>
+        <h3>Most people start with the business. I start with people, because people are the business.</h3>
+      </div>
+      <ol class="steps">
+        <li>
+          <h3>Capture what's in your head</h3>
+          <p>I sit with you closely enough to pull out the thinking that's currently only yours: what needs to happen, who needs to be involved, how and when.</p>
+        </li>
+        <li>
+          <h3>Pressure-test it</h3>
+          <p>I take that draft to the people and information that can challenge it, so what moves forward has survived contact with reality.</p>
+        </li>
+        <li>
+          <h3>Make it the single source of truth</h3>
+          <p>One place everyone can see and trust, with formal and informal communication lines that keep it alive and flowing in both directions.</p>
+        </li>
+      </ol>
+
+      <div class="subhead">
+        <span class="label">Evidence</span>
+        <h3>What this looks like in practice</h3>
+      </div>
+      <div class="cases">
+        <article class="case">
+          <span class="where">BW Offshore</span>
+          <h3>Turning strategy into execution</h3>
+          <p class="solves">Solves: strategy exists on paper but doesn't change what people do.</p>
+          <p>A company-wide operational OKR meant little to three geographic units with their own realities. I ran each unit through identifying local priorities, then weighing impact against resources, with a named owner and a check-in cadence for every initiative.</p>
+          <p class="result">18 prioritised, owned initiatives across 3 units, each tied to local operational reality.</p>
+        </article>
+        <article class="case">
+          <span class="where">BW Offshore</span>
+          <h3>Unblocking cross-functional misalignment</h3>
+          <p class="solves">Solves: functions that depend on each other don't collaborate.</p>
+          <p>Offshore operations and onshore Technical, Supply Chain and People functions were largely disconnected. I designed a multi-month process with kickoffs, structured input, alignment sessions and a cross-functional workshop, then a shared space and meeting rhythm to keep it going.</p>
+          <p class="result">40+ leaders across 3 assets now build improvement programmes together instead of receiving them top-down.</p>
+        </article>
+        <article class="case">
+          <span class="where">Yara International</span>
+          <h3>Bringing structure to ambiguity</h3>
+          <p class="solves">Solves: there's no playbook, and someone has to build one while doing the work.</p>
+          <p>I co-created the learning function from scratch: a lean central team plus eight strategic partners embedded across regions, with a monthly input process and a decision cadence for what goes global and what stays local.</p>
+          <p class="result">Five years running one global strategy across 8 partners with zero formal authority over any of them.</p>
+        </article>
+        <article class="case">
+          <span class="where">BW Offshore</span>
+          <h3>Building an operating cadence where none existed</h3>
+          <p class="solves">Solves: no consistent rhythm for decisions, follow-through or visibility.</p>
+          <p>New leaders' first 90 days depended on who they happened to work for. I designed a repeatable transition: 30-60-90 day plans, structured follow-ups, a mentor for every new leader and quarterly assessments.</p>
+          <p class="result">New leaders ramp up faster and spend their energy leading rather than working out the role.</p>
+        </article>
+      </div>
+
+      <div class="subhead">
+        <span class="label">How not to waste each other's time</span>
+        <h3>What I ask for from day one</h3>
+      </div>
+      <div class="asks">
+        <div>
+          <h3>A real mandate, not "special projects"</h3>
+          <p>Named decision rights, agreed before I start. A vague mandate is the most common reason this kind of role fails.</p>
+        </div>
+        <div>
+          <h3>Visibility to your whole leadership team</h3>
+          <p>The people I coordinate need to know why I have a mandate and what it covers, or every conversation starts from scratch.</p>
+        </div>
+        <div>
+          <h3>A measurable outcome at 90 days</h3>
+          <p>Specific enough that we'd both recognise whether it's working, and can talk honestly and early if it isn't.</p>
+        </div>
+      </div>
+      <div class="subhead">
+        <span class="label">How we start</span>
+        <h3>A 3-month paid pilot, before either of us commits to more</h3>
+      </div>
+      <div class="cases">
+        <article class="case">
+          <span class="where">Three outcomes by week 12</span>
+          <h3>What the pilot delivers</h3>
+          <p><b>Executive operating rhythm.</b> A weekly leadership meeting structure, a one-page priorities view and a decision log, running without me by week 12.</p>
+          <p><b>One cross-functional initiative.</b> I own coordination of one initiative, from plan to first results.</p>
+          <p><b>Founder leverage.</b> A short list of recurring tasks and decisions moved off your plate, agreed in week 2.</p>
+        </article>
+        <article class="case">
+          <span class="where">Fixed hours, clear boundaries</span>
+          <h3>How we work together</h3>
+          <p>A fixed block of hours each week on set days, a 30-minute weekly check-in with you, one leadership meeting, and a short written update every Friday on progress, blockers and decisions needed.</p>
+          <p>We review at week 6 and week 12. Then you choose: an ongoing retainer, an extension, or a clean handover of every document and process.</p>
+          <p class="result">Success means you spend less time on coordination, priorities are visible to the whole leadership team, and work moves without constant chasing.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="btr-sec" id="beneath-the-role">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Beneath the Role</span>
+        <h2>For leaders who want teams built on real connection, and know that starts with knowing yourself.</h2>
+      </div>
+
+      <div class="manifesto">
+        <div class="prose">
+          <p>Most leadership development hands people three steps to this or ten points to that. I place self-awareness at the foundation: who we are, what shaped us, and how we show up. Without that foundation, even the best frameworks lack depth. You can't build a house without one.</p>
+          <p>As Gabor Maté describes, from childhood most of us learn to suppress our authentic selves to stay connected to the people we depend on. We carry that adaptation into our careers and into the rooms where we lead. The child who kept the peace at the dinner table becomes the manager who can't handle conflict in a meeting.</p>
+          <p class="big-q">Which parts of the way I show up are genuinely mine, and which am I performing because I learned they were required?</p>
+          <p>When leaders work from that awareness, they stop managing impressions and start seeing each other as whole human beings. In an age where AI handles more of the work, that capacity to see and be seen is what sets us apart.</p>
+        </div>
+        <div>
+          <span class="label">Why frameworks alone aren't working</span>
+          <div class="stats" style="margin-top:12px">
+            <div class="stat"><b>11%</b><p>of executives strongly agree their leadership development achieves its desired outcomes.</p></div>
+            <div class="stat"><b>10–15%</b><p>of people are actually self-aware, though 95% believe they are.<cite>Tasha Eurich</cite></p></div>
+            <div class="stat"><b>21%</b><p>global employee engagement in 2024, only the second decline in over a decade.<cite>Gallup, 2024</cite></p></div>
+            <div class="stat"><b>61% vs 13%</b><p>of employees report being innovative with highly empathetic leaders, versus less empathetic ones.<cite>Catalyst</cite></p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subhead">
+        <span class="label">How I work</span>
+        <h3>Principles, not a single method</h3>
+      </div>
+      <div class="principles">
+        <div class="principle"><h3>The body knows things the mind hasn't caught up with yet.</h3><p>I work somatically, paying attention to where things live physically, not just cognitively.</p></div>
+        <div class="principle"><h3>Patterns don't change through understanding alone.</h3><p>Insight is the beginning. The work involves feeling, not just naming.</p></div>
+        <div class="principle"><h3>The group is a resource.</h3><p>Together, people witness each other into new ways of being.</p></div>
+        <div class="principle"><h3>Safety isn't the absence of discomfort.</h3><p>It's a container strong enough to hold it. I spend as much time building it as doing the work.</p></div>
+        <div class="principle"><h3>Nothing is pathologised.</h3><p>Resistance, deflection, tears and laughter are information, not problems to fix.</p></div>
+      </div>
+
+      <div class="subhead">
+        <span class="label">The offering</span>
+        <h3>Three levels, each one leading naturally into the next</h3>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="tier-head"><span class="label">Individual</span><h3>One-to-one</h3><p>For individuals ready to look beneath the surface.</p></div>
+          <div class="offers">
+            <div class="offer"><span class="fmt">90 min · in person or online</span><h4>The mirror session</h4><p>Most coaching starts with goals. This starts with honesty: the things you haven't said out loud yet about your role and your patterns.</p></div>
+            <div class="offer"><span class="fmt">6 × 75 min · 3–4 months</span><h4>Beneath the role</h4><p>Each session moves through a layer: what you carry, what you suppress, what repeats and where it comes from. Not fixing you, but making the automatic intentional.</p></div>
+            <div class="offer"><span class="fmt">Full day · in person</span><h4>The full day</h4><p>For an inflection point: a transition, a crisis, a promotion that feels harder than expected. You leave with clarity, not a plan.</p></div>
+          </div>
+        </div>
+        <div class="tier">
+          <div class="tier-head"><span class="label">Team</span><h3>Team &amp; group work</h3><p>For groups ready to trade performance theatre for genuine connection.</p></div>
+          <div class="offers">
+            <div class="offer"><span class="fmt">4 hours · 4–10 people</span><h4>Beneath the surface</h4><p>Structured sharing, witnessed listening and a live constellation exercise. Teams report meetings feel different for weeks afterwards.</p></div>
+            <div class="offer flag"><span class="tag">Flagship</span><span class="fmt">~7 hours · 6 people · off-site</span><h4>Beneath the role</h4><p>Container setting, witnessed sharing, mask work, constellation mapping and council practice. This day doesn't teach leadership. It reveals it.</p></div>
+            <div class="offer"><span class="fmt">90 min / month · ongoing</span><h4>The container</h4><p>A protected monthly space to check in beneath the surface, so insight doesn't evaporate back into the inbox.</p></div>
+          </div>
+        </div>
+        <div class="tier">
+          <div class="tier-head"><span class="label">Organisation</span><h3>The programme</h3><p>For organisations ready to make self-awareness a structural practice.</p></div>
+          <div class="offers">
+            <div class="offer"><span class="fmt">6 months · up to 18 people · blended</span><h4>The foundation</h4><p>Three cohorts of six: the full day, a 1:1 arc and monthly containers. Enough self-aware leaders that the culture begins to shift.</p></div>
+            <div class="offer"><span class="fmt">90 days · add-on</span><h4>The 90-day letter</h4><p>A letter to your future self, posted at six weeks, with a group check-in at 90 days. Insight without accountability is just a nice feeling.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="ctas" style="margin-top:40px"><a class="btn dusk" href="#contact">Talk about this for your team</a></div>
+    </div>
+  </section>
+
+  <section id="draw-on">
+    <div class="wrap draw">
+      <div class="prose" style="align-content:start">
+        <span class="label">What I draw on</span>
+        <h2 style="font-size:var(--step-3)">Real change doesn't happen through the mind alone.</h2>
+        <p>I set out to find what makes an experience transformative rather than merely informative. That led me to approaches that reach different layers of who we are. In leadership development, none of it existed in one place, so I built it.</p>
+        <p>Some of this sits outside a typical business vocabulary. I share it openly because it's part of who I am. You'll never be asked to do anything you haven't chosen.</p>
+        <p class="note">Psychedelic work is offered as preparation and integration support only, within the law where you live. <span class="ph">[Check this matches exactly what you offer.]</span></p>
+      </div>
+      <div class="modalities">
+        <div class="modality"><h3>Somatic awareness</h3><p>Working through the body, where patterns are held before we have words for them.</p></div>
+        <div class="modality"><h3>Constellation work</h3><p>Making the invisible dynamics of a family, team or organisation visible in space.</p></div>
+        <div class="modality"><h3>Council practice</h3><p>Creating the conditions for genuine truth-telling in a group.</p></div>
+        <div class="modality"><h3>Depth psychology</h3><p>Gabor Maté on authenticity and attachment, Jungian work on the shadow, Tasha Eurich on the self-awareness gap.</p></div>
+        <div class="modality"><h3>Systemic coaching</h3><p>Seeing the person within the systems that shaped them.</p></div>
+        <div class="modality"><h3>Regression work</h3><p>Tracing present patterns back to where they began. <span class="ph">[Add your training.]</span></p></div>
+        <div class="modality"><h3>Shamanic practice</h3><p>Ceremony and ways of knowing older than any management framework. <span class="ph">[Add your lineage or training.]</span></p></div>
+        <div class="modality"><h3>Psychedelic integration</h3><p>Helping people prepare well and make lasting sense of what opened up.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="portrait" role="img" aria-label="Portrait placeholder">Photo: smiling side portrait<br>(green top, pale wall)</div>
+        <div class="prose">
+          <span class="label">About Nikol</span>
+          <p class="pull">I get people aligned quickly because I look at them as whole human beings, not just the mask of their role.</p>
+          <p>I ask, and I really listen, with genuine interest in people's experience at work and outside it. I build trust by making room for emotions in places where feelings are considered unprofessional. I factor human behaviour, motivations and needs into every strategy, because it's people who deliver it. The biggest gap is usually between work as imagined and work as done.</p>
+          <p>Working this way, against the supposed norms, has given me consistent results: less friction and better engagement, so work gets done faster. Better decisions, because people feel safe to speak their mind. And a healthier atmosphere where people can be themselves.</p>
+          <p>I've founded and run an NGO, co-founded a startup academy, and built leadership and learning functions inside global companies. I live in Oslo and work in English, Czech, Russian, Norwegian and German.</p>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="role"><span class="yrs">2025 – now</span><div><h3>Lead, Talent &amp; Leadership Development <span>· BW Offshore, Oslo</span></h3><p>Governance for strategic initiatives, CEO communication preparation, company-wide leadership framework, HR expert on the internal LLM deployment.</p></div></div>
+        <div class="role"><span class="yrs">2020 – 2025</span><div><h3>Learning &amp; Development Manager <span>· Yara International, Oslo</span></h3><p>Co-built the global learning function, designed a full-day experience for the top 300 senior leaders, launched a Lean In Circle diversity pilot.</p></div></div>
+        <div class="role"><span class="yrs">2017 – 2021</span><div><h3>Founder &amp; Director <span>· Network for Work (NGO), Oslo</span></h3><p>Built an organisation from mission statement to funded reality, aligning private companies and public bodies around one outcome.</p></div></div>
+        <div class="role"><span class="yrs">2018 – 2019</span><div><h3>Programme Lead &amp; Co-Founder <span>· Grundr Academy, Oslo</span></h3><p>Took a programme from concept to paying delivery: curriculum, platform and partnerships.</p></div></div>
+        <div class="role"><span class="yrs">Earlier</span><div><h3>IBM, Brno · ServiceSource, Dublin</h3><p>End User Services Manager and Sales Account Manager.</p></div></div>
+      </div>
+
+      <div class="creds">
+        <div><span class="label">Education</span><ul><li>MPhil, Gender Studies, University of Oslo</li><li>BSc, Sociology, Media &amp; Gender Studies, Masaryk University</li></ul></div>
+        <div><span class="label">Certifications</span><ul><li>Facilitation, Voltage Control (2023)</li><li>#IamRemarkable Facilitator (2024)</li><li>Coaching, Positive Success Group (2011)</li><li><span class="ph">[Somatic, constellation, regression, shamanic training]</span></li></ul></div>
+        <div><span class="label">Languages</span><ul><li>English, fluent</li><li>Czech, native</li><li>Russian, advanced</li><li>Norwegian, intermediate</li><li>German, basic</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap contact-grid">
+      <div style="display:grid; gap:18px">
+        <span class="label">Let's have a chat</span>
+        <h2>Ready to stop choosing between business needs and people needs?</h2>
+        <p>Lead from a place of calm instead of constant firefighting, with someone in your corner you don't have to pretend with. Tell me a little about you and what's asking for attention. I read every message myself.</p>
+      </div>
+      <div style="display:grid; gap:14px">
+        <div class="email-row">
+          <span class="email" id="email">nikol.mard@gmail.com</span>
+          <button class="btn warm" id="copy" type="button">Copy email</button>
+        </div>
+        <p><a href="https://www.linkedin.com/in/nikol-mard" target="_blank" rel="noopener">linkedin.com/in/nikol-mard</a></p>
+        <p style="font-size:0.9rem">Based in Oslo, Norway · working in person and online</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Nikol Mard</span>
+    <span>Coaching is not a substitute for therapy or medical care.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var btn = document.getElementById('copy');
+  var el = document.getElementById('email');
+  btn.addEventListener('click', function () {
+    var text = el.textContent.trim();
+    function selectText() {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = 'Selected';
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = 'Copy email'; }, 1800);
+      }, selectText);
+    } catch (e) { selectText(); }
+  });
+})();
+</script>
