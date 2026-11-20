@@ -163,6 +163,72 @@ footer { padding-block: 24px; font-size: 0.85rem; color: var(--muted); }
 @media (max-width: 460px) { .body-map { grid-template-columns: minmax(0, 1fr); } }
 .thought, .punch, .mission, .hero .clone { font-weight: 500; letter-spacing: -0.01em; }
 .hero h1 { font-weight: 800; letter-spacing: -0.03em; }
+
+/* animated body, kept close to the hand sketch. One continuous outline draws, then brain, bones, muscles and nerves appear with their descriptions, then a very dense web of fine connective tissue spreads and tiny impulses keep running through it */
+.bodyfx { display: grid; grid-template-columns: minmax(250px, 360px) minmax(0, 1fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
+.fx-fig { margin: 0; }
+.fx-fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fx-out { --t: 0s; fill: none; stroke: var(--forest); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.fx-brain { --t: 1.6s; }
+.fx-brain .bf { fill: var(--white); }
+.fx-brain .ha, .fx-brain .hb { stroke: none; }
+.fx-brain .ha { fill: url(#fxHA); }
+.fx-brain .hb { fill: url(#fxHB); }
+.fx-brain .bo { fill: none; stroke: var(--forest); stroke-width: 2.2; stroke-linejoin: round; }
+.fx-brain .bl { fill: none; stroke: var(--light); stroke-width: 1.2; stroke-opacity: .85; stroke-linecap: round; }
+.fx-brain .ha, .fx-brain .hb { stroke: none; }
+.fx-brain .ha { fill: url(#fxHA); }
+.fx-brain .hb { fill: url(#fxHB); }
+.hl { stroke: var(--forest); stroke-width: 1.3; stroke-opacity: .75; }
+.fx-skel { --t: 3s; fill: none; stroke: var(--forest); stroke-width: 7; stroke-linecap: round; }
+.fx-musc { --t: 4.4s; }
+.fx-musc .m { fill: var(--fern); fill-opacity: .06; stroke: var(--fern); stroke-width: 1.8; }
+.fx-nerv { --t: 5.9s; fill: none; stroke: var(--deep); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fx-web { --t: 7.6s; fill: none; stroke-linecap: round; }
+.fx-web .mg { stroke: var(--mid); stroke-width: .45; stroke-opacity: .6; }
+.fx-web .sh { stroke-linecap: round; }
+.fx-web .s0 { stroke: #FFD84D; stroke-width: 6; stroke-opacity: .85; stroke-dasharray: 1 99; }
+.fx-web .s1 { stroke: #FFC400; stroke-width: 3; stroke-dasharray: .4 99.6; }
+.fx-web .s2 { stroke: #FFFBE6; stroke-width: 1.4; stroke-dasharray: .12 99.88; }
+.fx-brain, .fx-musc .m, .mk { transform-box: fill-box; transform-origin: center; }
+.fx-list { display: grid; gap: 12px; }
+.fx-item { background: var(--white); border: 1px solid var(--line); border-left: 5px solid var(--c, var(--mid)); border-radius: 12px; padding: 16px 20px; display: grid; gap: 4px; }
+.fx-item h3 { font-size: 1.15rem; }
+.fx-item p { color: var(--muted); font-size: .97rem; }
+.fx-item.last { background: var(--green); border-color: var(--green); border-left-color: var(--light); }
+.fx-item.last h3, .fx-item.last strong { color: var(--white); }
+.fx-item.last p { color: var(--on-dark); }
+.fx-item.last .organ { color: var(--light); }
+/* start states: only applied once the script confirms it can play the animation */
+.bodyfx-on .fx-brain, .bodyfx-on .fx-musc .m { opacity: 0; transform: scale(.4); }
+.bodyfx-on .mk { transform: scale(0); }
+.bodyfx-on .fx-draw { opacity: 0; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.bodyfx-on .sh { opacity: 0; }
+.bodyfx-on .fx-item { opacity: 0; transform: translateX(20px); }
+@keyframes fxPop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+@keyframes fxDraw { from { opacity: 1; stroke-dashoffset: 100; } to { opacity: 1; stroke-dashoffset: 0; } }
+@keyframes fxGrow { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes fxBreathe { 0%, 100% { stroke-opacity: .4; } 50% { stroke-opacity: .75; } }
+@keyframes fxS0 { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
+@keyframes fxS1 { from { stroke-dashoffset: -.6; } to { stroke-dashoffset: -100.6; } }
+@keyframes fxS2 { from { stroke-dashoffset: -.88; } to { stroke-dashoffset: -100.88; } }
+.bodyfx.play .fx-item { opacity: 1; transform: none; transition: opacity .8s ease, transform .8s ease; transition-delay: var(--t); }
+.bodyfx.play .fx-draw { animation: fxDraw 1.5s ease-in-out calc(var(--t) + var(--k, 0s)) both; }
+.bodyfx.play .fx-brain { animation: fxPop 1.1s cubic-bezier(.2, .8, .2, 1) var(--t) both; }
+.bodyfx.play .fx-musc .m { animation: fxPop .9s cubic-bezier(.2, .8, .2, 1) calc(var(--t) + var(--i) * .15s) both; }
+.bodyfx.play .mk { animation: fxGrow 2.8s ease-out 7.6s both; }
+.bodyfx.play .mg { animation: fxBreathe 5s ease-in-out 10.5s infinite; }
+.bodyfx.play .mg1 { animation-delay: 12.5s; }
+.bodyfx.play .mg2 { animation-delay: 14.5s; }
+.bodyfx.play .sh { opacity: 1; animation-duration: calc(var(--sp, 4s) * 1.6); animation-timing-function: linear; animation-iteration-count: infinite; animation-delay: calc(var(--t) + 1.5s + var(--p, 0s)); }
+.bodyfx.play .st.rv .sh { animation-direction: reverse; }
+.bodyfx.play .s0 { animation-name: fxS0; }
+.bodyfx.play .s1 { animation-name: fxS1; }
+.bodyfx.play .s2 { animation-name: fxS2; }
+@media (max-width: 760px) {
+  .bodyfx { grid-template-columns: minmax(0, 1fr); }
+  .fx-fig { max-width: 300px; margin: 0 auto; }
+}
 </style>
 
 <div class="dark">
@@ -200,14 +266,16 @@ footer { padding-block: 24px; font-size: 0.85rem; color: var(--muted); }
     <div class="wrap col">
       <div class="head reveal">
         <span class="eyebrow">Is that you?</span>
-        <h2>Your business is getting traction but it's getting harder to hold it all together.</h2>
+        <h2>Your business just expanded, got funding, hired new executives or set a new ambitious goal, but it's getting harder to hold it all together.</h2>
       </div>
       <ul class="recog">
         <li class="reveal">There's a nagging feeling at the back of your mind that you're forgetting something you should have done.</li>
         <li class="reveal">You feel guilty that you haven't spent enough time with your new leadership hire to set them up for success.</li>
         <li class="reveal">You just realized someone on your team has a completely different understanding of the company's strategic direction.</li>
         <li class="reveal">"People development" is on the list for when things calm down, but they never do.</li>
+        <li class="reveal">There are a thousand tabs open in your browser (the literal one and the 'browser of your brain'), and some have been open for a long time, always running in the background, sapping away your focus and energy.</li>
         <li class="reveal">You are putting on a brave face so your team doesn't see you stressed.</li>
+        <li class="reveal">When you get home in the evening, you have no energy left for the people and things that used to bring you joy.</li>
       </ul>
       <p class="thought reveal">"I wish there was someone who could pick up all the pieces, someone who can be in the rooms I can't be in, someone with whom I don't have to pretend I'm on top of everything."</p>
     </div>
@@ -219,15 +287,209 @@ footer { padding-block: 24px; font-size: 0.85rem; color: var(--muted); }
         <span class="eyebrow">Connecting the dots</span>
         <h2>A business works like a body. Every part can be strong on its own, but it still won't perform without what holds it together.</h2>
       </div>
-      <div class="body-map">
-        <div class="part reveal"><span class="organ">The head</span><h3>Your vision and strategy</h3><p>Where the company is going and why.</p></div>
-        <div class="part reveal" style="--d:.08s"><span class="organ">The skeleton</span><h3>Structure, processes and tools</h3><p>The tech stack, the org chart, the way things are meant to run.</p></div>
-        <div class="part reveal" style="--d:.16s"><span class="organ">The muscles</span><h3>Your teams and functions</h3><p>Sales, product, operations: the people doing the work.</p></div>
-        <div class="part reveal" style="--d:.24s"><span class="organ">The nervous system</span><h3>Information and decisions</h3><p>What reaches whom, when, and in what form.</p></div>
-        <div class="tissue reveal" style="--d:.3s">
-          <span class="organ">The connective tissue</span>
-          <h3>Mutual understanding between the people involved</h3>
-          <p>It makes sure all parts have what they need and they pull in the same direction. <strong>You don't notice it until it's missing.</strong></p>
+      <div class='bodyfx' id='bodyfx'>
+        <figure class='fx-fig'>
+          <svg viewBox='0 0 340 446' role='img' aria-label='Sketch of a person drawn as one continuous outline. A brain with two halves appears in the head, then a shoulder bar and four bones, the muscles wrapped around the bones, and the nerves running from the brain to each muscle. Finally a very dense web of fine connective tissue spreads across the body, with tiny impulses of light running through it.'>
+            <defs>
+              <pattern id='fxHA' width='6' height='6' patternUnits='userSpaceOnUse' patternTransform='rotate(45)'><line class='hl' x1='0' y1='0' x2='0' y2='6'/></pattern>
+              <pattern id='fxHB' width='6' height='6' patternUnits='userSpaceOnUse' patternTransform='rotate(-45)'><line class='hl' x1='0' y1='0' x2='0' y2='6'/></pattern>
+              <clipPath id='fxClipB'><path d='M60 436C58 345 56 262 58 200C60 172 72 154 102 142C126 132 144 128 144 112C144 100 116 90 116 66C116 40 140 26 170 26C200 26 224 40 224 66C224 90 196 100 196 112C196 128 214 132 238 142C268 154 280 172 282 200C284 262 282 345 280 436Z'/></clipPath>
+              <clipPath id='fxClipR'><rect x='0' y='0' width='340' height='450'/></clipPath>
+              <mask id='fxMask' maskUnits='userSpaceOnUse' x='-60' y='-60' width='460' height='560'><circle class='mk' cx='170' cy='225' r='390' fill='#fff'/></mask>
+            </defs>
+            <g class='fx-out'>
+              <path class='fx-draw' pathLength='100' d='M60 436C58 345 56 262 58 200C60 172 72 154 102 142C126 132 144 128 144 112C144 100 116 90 116 66C116 40 140 26 170 26C200 26 224 40 224 66C224 90 196 100 196 112C196 128 214 132 238 142C268 154 280 172 282 200C284 262 282 345 280 436'/>
+            </g>
+            <g class='fx-web' clip-path='url(#fxClipB)'>
+             <g clip-path='url(#fxClipR)'>
+              <g mask='url(#fxMask)'>
+              <path class='mg mg0' d='M-480 0Q-253 223 -24 444M-474 0Q-253 223 -29 444M-470 0Q-233 224 7 444M-464 0Q-235 221 -9 444M-460 0Q-229 222 2 444M-455 0Q-225 221 3 444M-448 0Q-215 223 19 444M-443 0Q-206 221 29 444M-439 0Q-209 220 17 444M-434 0Q-209 221 14 444M-427 0Q-204 221 17 444M-423 0Q-201 223 22 444M-417 0Q-182 223 53 444M-412 0Q-189 221 33 444M-408 0Q-174 221 57 444M-402 0Q-165 222 73 444M-397 0Q-157 221 81 444M-391 0Q-158 222 75 444M-386 0Q-154 223 80 444M-380 0Q-141 220 95 444M-375 0Q-148 220 76 444M-371 0Q-146 222 80 444M-366 0Q-127 221 111 444M-361 0Q-139 223 85 444M-354 0Q-131 221 92 444M-350 0Q-118 223 115 444M-344 0Q-109 223 129 444M-340 0Q-118 224 108 444M-335 0Q-98 222 140 444M-329 0Q-108 224 117 444M-324 0Q-94 221 134 444M-319 0Q-83 221 152 444M-313 0Q-85 221 141 444M-308 0Q-70 222 168 444M-304 0Q-72 222 160 444M-298 0Q-73 222 151 444M-292 0Q-53 220 183 444M-287 0Q-56 221 173 444M-282 0Q-56 222 171 444M-278 0Q-52 222 173 444M-271 0Q-35 221 201 444M-266 0Q-36 223 196 444M-262 0Q-39 222 183 444M-256 0Q-29 221 196 444M-252 0Q-20 222 212 444M-245 0Q-24 222 199 444M-241 0Q-10 221 219 444M-235 0Q-2 223 233 444M-230 0Q1 223 235 444M-225 0Q1 223 229 444M-220 0Q13 221 245 444M-214 0Q15 223 246 444M-209 0Q24 223 258 444M-205 0Q23 222 252 444M-199 0Q35 222 270 444M-194 0Q30 223 256 444M-189 0Q43 223 277 444M-184 0Q40 223 266 444M-178 0Q44 224 270 444M-173 0Q49 222 272 444M-167 0Q67 224 304 444M-162 0Q67 223 298 444M-158 0Q67 223 294 444M-152 0Q77 222 305 444M-147 0Q81 222 309 444M-143 0Q85 221 310 444M-137 0Q95 221 326 444M-131 0Q97 220 323 444M-127 0Q105 220 334 444M-121 0Q116 221 351 444M-117 0Q119 222 354 444M-111 0Q121 222 354 444M-105 0Q131 220 364 444M-101 0Q131 222 363 444M-95 0Q142 222 379 444M-90 0Q150 221 386 444M-85 0Q144 222 374 444M-79 0Q144 222 366 444M-74 0Q151 222 376 444M-69 0Q167 222 403 444M-63 0Q159 222 382 444M-58 0Q176 220 407 444M-53 0Q183 222 420 444M-48 0Q187 223 424 444M-43 0Q190 221 421 444M-37 0Q197 222 430 444M-32 0Q190 222 413 444M-27 0Q207 222 441 444M-23 0Q207 224 440 444M-18 0Q213 222 443 444M-12 0Q225 222 461 444M-6 0Q226 223 461 444M-2 0Q238 221 475 444M4 0Q228 221 450 444M8 0Q241 224 476 444M14 0Q248 222 481 444M19 0Q246 223 475 444M25 0Q262 221 498 444M29 0Q260 221 488 444M35 0Q265 222 494 444M40 0Q268 220 492 444M45 0Q278 224 514 444M50 0Q276 220 498 444M55 0Q281 222 506 444M61 0Q288 222 514 444M66 0Q290 222 513 444M71 0Q296 221 519 444M76 0Q299 223 525 444M81 0Q309 221 535 444M87 0Q314 221 538 444M92 0Q322 222 553 444M97 0Q329 222 562 444M102 0Q328 221 552 444M108 0Q332 223 558 444M113 0Q350 224 590 444M118 0Q342 220 562 444M123 0Q347 223 572 444M129 0Q353 221 574 444M134 0Q369 221 601 444M139 0Q368 221 595 444M143 0Q373 221 599 444M149 0Q382 220 613 444M155 0Q382 223 612 444M159 0Q396 221 632 444M165 0Q392 224 622 444M169 0Q401 223 634 444M175 0Q411 222 647 444M180 0Q403 222 627 444M186 0Q421 221 654 444M191 0Q418 221 643 444M196 0Q430 223 665 444M202 0Q437 223 673 444M207 0Q445 221 681 444M212 0Q449 221 685 444M217 0Q441 221 665 444M221 0Q446 223 672 444M227 0Q463 224 702 444M232 0Q460 221 686 444M238 0Q459 223 683 444M243 0Q480 221 715 444M248 0Q482 222 717 444M253 0Q487 221 718 444M259 0Q482 223 708 444M264 0Q495 222 726 444M269 0Q497 223 726 444M273 0Q507 220 737 444M278 0Q512 223 749 444M285 0Q517 220 746 444M290 0Q520 222 751 444'/>
+              <path class='mg mg1' d='M50 0Q-180 223 -413 444M55 0Q-181 222 -417 444M61 0Q-170 223 -403 444M65 0Q-168 223 -403 444M70 0Q-163 222 -397 444M77 0Q-161 222 -400 444M82 0Q-142 221 -364 444M87 0Q-142 223 -374 444M91 0Q-137 221 -363 444M96 0Q-129 223 -356 444M102 0Q-135 224 -375 444M108 0Q-123 222 -355 444M112 0Q-120 223 -354 444M118 0Q-107 223 -335 444M123 0Q-113 220 -346 444M128 0Q-101 220 -327 444M132 0Q-107 221 -345 444M138 0Q-94 222 -325 444M144 0Q-78 223 -301 444M148 0Q-90 221 -326 444M155 0Q-74 224 -306 444M158 0Q-76 222 -310 444M164 0Q-73 222 -311 444M169 0Q-63 224 -298 444M174 0Q-48 222 -271 444M180 0Q-50 224 -283 444M185 0Q-49 222 -282 444M191 0Q-34 221 -256 444M195 0Q-40 222 -275 444M201 0Q-29 222 -260 444M206 0Q-23 221 -250 444M211 0Q-23 221 -255 444M216 0Q-18 223 -254 444M222 0Q-16 221 -252 444M226 0Q-6 224 -240 444M231 0Q-3 222 -237 444M237 0Q10 224 -221 444M242 0Q16 223 -212 444M247 0Q15 223 -220 444M253 0Q20 221 -210 444M259 0Q29 221 -200 444M263 0Q38 222 -188 444M269 0Q42 220 -181 444M274 0Q48 223 -179 444M279 0Q55 223 -171 444M283 0Q47 223 -192 444M289 0Q63 224 -165 444M294 0Q70 224 -157 444M299 0Q62 223 -177 444M306 0Q81 222 -143 444M310 0Q76 222 -159 444M314 0Q81 222 -151 444M321 0Q97 223 -129 444M325 0Q95 221 -134 444M332 0Q100 221 -130 444M336 0Q98 220 -138 444M341 0Q111 222 -120 444M347 0Q121 222 -104 444M352 0Q131 223 -93 444M357 0Q133 224 -93 444M361 0Q139 222 -83 444M368 0Q138 222 -93 444M372 0Q138 223 -98 444M377 0Q147 221 -81 444M383 0Q149 223 -86 444M389 0Q165 221 -56 444M393 0Q166 223 -63 444M398 0Q175 224 -51 444M403 0Q167 221 -68 444M408 0Q184 221 -39 444M414 0Q180 221 -52 444M420 0Q192 222 -36 444M424 0Q186 222 -53 444M429 0Q195 223 -41 444M434 0Q197 222 -42 444M440 0Q210 222 -21 444M446 0Q222 221 1 444M451 0Q224 222 -3 444M455 0Q230 222 5 444M461 0Q234 223 7 444M465 0Q229 223 -9 444M472 0Q242 221 14 444M477 0Q245 223 10 444M481 0Q254 221 28 444M488 0Q259 221 33 444M493 0Q265 221 39 444M497 0Q268 222 40 444M502 0Q277 220 55 444M507 0Q280 224 49 444M512 0Q280 221 48 444M519 0Q295 222 72 444M523 0Q290 221 59 444M529 0Q300 222 70 444M533 0Q310 223 86 444M539 0Q304 221 71 444M544 0Q308 221 73 444M549 0Q314 222 79 444M555 0Q330 221 106 444M559 0Q328 222 97 444M564 0Q342 223 118 444M571 0Q344 223 114 444M575 0Q336 222 98 444M580 0Q353 223 123 444M586 0Q357 221 129 444M590 0Q364 222 138 444M597 0Q373 223 148 444M601 0Q376 220 153 444M607 0Q371 221 137 444M611 0Q382 223 150 444M616 0Q381 223 144 444M621 0Q392 221 165 444M628 0Q400 221 175 444M633 0Q405 220 180 444M638 0Q412 223 182 444M642 0Q406 223 168 444M648 0Q415 221 184 444M653 0Q427 222 200 444M658 0Q430 223 200 444M663 0Q434 221 207 444M670 0Q438 220 209 444M674 0Q436 221 200 444M679 0Q445 222 212 444M685 0Q451 220 220 444M689 0Q457 222 225 444M695 0Q468 222 242 444M700 0Q465 221 233 444M704 0Q475 222 245 444M711 0Q478 224 242 444M715 0Q481 222 247 444M721 0Q499 222 276 444M725 0Q503 223 279 444M730 0Q504 221 280 444M736 0Q504 223 271 444M741 0Q511 222 280 444M746 0Q507 220 271 444M752 0Q522 223 290 444M758 0Q523 221 290 444M762 0Q532 222 302 444M767 0Q542 222 317 444M773 0Q549 222 326 444M777 0Q538 221 301 444M784 0Q551 221 321 444M788 0Q563 220 342 444'/>
+              <path class='mg mg2' d='M231 0C242 170 222 300 238 444M151 0C165 170 165 300 145 444M151 0C145 170 150 300 146 444M210 0C199 170 201 300 209 444M68 0C64 170 79 300 77 444M97 0C84 170 106 300 108 444M194 0C184 170 186 300 204 444M275 0C262 170 266 300 273 444M114 0C121 170 110 300 121 444M86 0C87 170 100 300 91 444M72 0C61 170 76 300 69 444M138 0C138 170 141 300 150 444M108 0C110 170 101 300 109 444M226 0C215 170 225 300 230 444M52 0C60 170 50 300 52 444M197 0C205 170 184 300 197 444M59 0C56 170 55 300 48 444M121 0C120 170 126 300 132 444M139 0C140 170 145 300 149 444M278 0C292 170 272 300 270 444M274 0C262 170 272 300 279 444M177 0C174 170 189 300 172 444M182 0C192 170 172 300 179 444M169 0C170 170 160 300 168 444M64 0C53 170 60 300 56 444M282 0C276 170 276 300 289 444M228 0C221 170 237 300 231 444M143 0C147 170 136 300 138 444M260 0C259 170 271 300 253 444M83 0C70 170 90 300 84 444M52 0C40 170 61 300 52 444M259 0C246 170 262 300 250 444M223 0C226 170 226 300 216 444M278 0C267 170 266 300 282 444M72 0C60 170 71 300 76 444M264 0C270 170 252 300 268 444M24 -2C100 1 240 -6 316 -0M24 4C100 1 240 2 316 1M24 9C100 12 240 9 316 12M24 15C100 14 240 11 316 13M24 20C100 18 240 25 316 19M24 26C100 22 240 25 316 23M24 32C100 31 240 33 316 33M24 37C100 34 240 34 316 37M24 43C100 45 240 42 316 43M24 48C100 53 240 45 316 47M24 54C100 54 240 54 316 56M24 60C100 60 240 61 316 59M24 65C100 68 240 69 316 64M24 71C100 67 240 68 316 70M24 76C100 80 240 74 316 77M24 82C100 83 240 87 316 80M24 88C100 90 240 86 316 85M24 93C100 95 240 97 316 94M24 99C100 94 240 104 316 98M24 104C100 106 240 107 316 103M24 110C100 109 240 108 316 108M24 116C100 111 240 118 316 115M24 121C100 125 240 117 316 120M24 127C100 124 240 131 316 129M24 132C100 136 240 132 316 130M24 138C100 137 240 135 316 135M24 144C100 144 240 141 316 141M24 149C100 149 240 154 316 152M24 155C100 154 240 151 316 156M24 160C100 157 240 161 316 158M24 166C100 171 240 166 316 166M24 172C100 169 240 172 316 174M24 177C100 176 240 174 316 177M24 183C100 187 240 182 316 184M24 188C100 193 240 187 316 190M24 194C100 194 240 190 316 191M24 200C100 204 240 199 316 199M24 205C100 209 240 206 316 205M24 211C100 209 240 213 316 209M24 216C100 216 240 219 316 217M24 222C100 218 240 219 316 223M24 228C100 230 240 224 316 231M24 233C100 230 240 230 316 231M24 239C100 238 240 240 316 241M24 244C100 241 240 246 316 242M24 250C100 251 240 248 316 249M24 256C100 251 240 258 316 253M24 261C100 264 240 260 316 262M24 267C100 268 240 267 316 269M24 272C100 277 240 270 316 271M24 278C100 282 240 274 316 278M24 284C100 283 240 288 316 281M24 289C100 291 240 292 316 291M24 295C100 290 240 299 316 294M24 300C100 304 240 302 316 300M24 306C100 309 240 308 316 305M24 312C100 314 240 312 316 313M24 317C100 318 240 320 316 315M24 323C100 323 240 318 316 325M24 328C100 331 240 332 316 326M24 334C100 334 240 334 316 332M24 340C100 337 240 344 316 342M24 345C100 343 240 348 316 346M24 351C100 350 240 352 316 349M24 356C100 354 240 352 316 357M24 362C100 363 240 364 316 362M24 368C100 367 240 366 316 369M24 373C100 372 240 374 316 375M24 379C100 378 240 381 316 376M24 384C100 382 240 388 316 382M24 390C100 386 240 385 316 392M24 396C100 392 240 395 316 395M24 401C100 404 240 401 316 401M24 407C100 402 240 410 316 408M24 412C100 414 240 416 316 413M24 418C100 420 240 422 316 419M24 424C100 419 240 427 316 427M24 429C100 426 240 425 316 428M24 435C100 431 240 433 316 432M24 440C100 438 240 435 316 440'/>
+              <g class='st rv' style='--sp:3.2s;--p:1.8s'><path class='sh s0' pathLength='100' d='M83 0C70 170 90 300 84 444'/><path class='sh s1' pathLength='100' d='M83 0C70 170 90 300 84 444'/><path class='sh s2' pathLength='100' d='M83 0C70 170 90 300 84 444'/></g>
+              <g class='st rv' style='--sp:5.0s;--p:1.8s'><path class='sh s0' pathLength='100' d='M-85 0Q144 222 374 444'/><path class='sh s1' pathLength='100' d='M-85 0Q144 222 374 444'/><path class='sh s2' pathLength='100' d='M-85 0Q144 222 374 444'/></g>
+              <g class='st rv' style='--sp:3.1s;--p:0.6s'><path class='sh s0' pathLength='100' d='M158 0Q-76 222 -310 444'/><path class='sh s1' pathLength='100' d='M158 0Q-76 222 -310 444'/><path class='sh s2' pathLength='100' d='M158 0Q-76 222 -310 444'/></g>
+              <g class='st rv' style='--sp:6.4s;--p:0.0s'><path class='sh s0' pathLength='100' d='M274 0C262 170 272 300 279 444'/><path class='sh s1' pathLength='100' d='M274 0C262 170 272 300 279 444'/><path class='sh s2' pathLength='100' d='M274 0C262 170 272 300 279 444'/></g>
+              <g class='st rv' style='--sp:2.7s;--p:0.1s'><path class='sh s0' pathLength='100' d='M195 0Q-40 222 -275 444'/><path class='sh s1' pathLength='100' d='M195 0Q-40 222 -275 444'/><path class='sh s2' pathLength='100' d='M195 0Q-40 222 -275 444'/></g>
+              <g class='st rv' style='--sp:3.7s;--p:2.2s'><path class='sh s0' pathLength='100' d='M-361 0Q-139 223 85 444'/><path class='sh s1' pathLength='100' d='M-361 0Q-139 223 85 444'/><path class='sh s2' pathLength='100' d='M-361 0Q-139 223 85 444'/></g>
+              <g class='st' style='--sp:5.5s;--p:3.8s'><path class='sh s0' pathLength='100' d='M82 0Q-142 221 -364 444'/><path class='sh s1' pathLength='100' d='M82 0Q-142 221 -364 444'/><path class='sh s2' pathLength='100' d='M82 0Q-142 221 -364 444'/></g>
+              <g class='st rv' style='--sp:4.1s;--p:3.2s'><path class='sh s0' pathLength='100' d='M784 0Q551 221 321 444'/><path class='sh s1' pathLength='100' d='M784 0Q551 221 321 444'/><path class='sh s2' pathLength='100' d='M784 0Q551 221 321 444'/></g>
+              <g class='st rv' style='--sp:4.9s;--p:3.8s'><path class='sh s0' pathLength='100' d='M29 0Q260 221 488 444'/><path class='sh s1' pathLength='100' d='M29 0Q260 221 488 444'/><path class='sh s2' pathLength='100' d='M29 0Q260 221 488 444'/></g>
+              <g class='st' style='--sp:4.2s;--p:4.5s'><path class='sh s0' pathLength='100' d='M174 0Q-48 222 -271 444'/><path class='sh s1' pathLength='100' d='M174 0Q-48 222 -271 444'/><path class='sh s2' pathLength='100' d='M174 0Q-48 222 -271 444'/></g>
+              <g class='st' style='--sp:5.6s;--p:1.3s'><path class='sh s0' pathLength='100' d='M253 0Q20 221 -210 444'/><path class='sh s1' pathLength='100' d='M253 0Q20 221 -210 444'/><path class='sh s2' pathLength='100' d='M253 0Q20 221 -210 444'/></g>
+              <g class='st' style='--sp:2.7s;--p:3.5s'><path class='sh s0' pathLength='100' d='M321 0Q97 223 -129 444'/><path class='sh s1' pathLength='100' d='M321 0Q97 223 -129 444'/><path class='sh s2' pathLength='100' d='M321 0Q97 223 -129 444'/></g>
+              <g class='st' style='--sp:5.1s;--p:0.1s'><path class='sh s0' pathLength='100' d='M216 0Q-18 223 -254 444'/><path class='sh s1' pathLength='100' d='M216 0Q-18 223 -254 444'/><path class='sh s2' pathLength='100' d='M216 0Q-18 223 -254 444'/></g>
+              <g class='st' style='--sp:4.4s;--p:2.8s'><path class='sh s0' pathLength='100' d='M24 216C100 216 240 219 316 217'/><path class='sh s1' pathLength='100' d='M24 216C100 216 240 219 316 217'/><path class='sh s2' pathLength='100' d='M24 216C100 216 240 219 316 217'/></g>
+              <g class='st' style='--sp:4.8s;--p:3.9s'><path class='sh s0' pathLength='100' d='M472 0Q242 221 14 444'/><path class='sh s1' pathLength='100' d='M472 0Q242 221 14 444'/><path class='sh s2' pathLength='100' d='M472 0Q242 221 14 444'/></g>
+              <g class='st rv' style='--sp:4.3s;--p:0.5s'><path class='sh s0' pathLength='100' d='M35 0Q265 222 494 444'/><path class='sh s1' pathLength='100' d='M35 0Q265 222 494 444'/><path class='sh s2' pathLength='100' d='M35 0Q265 222 494 444'/></g>
+              <g class='st' style='--sp:5.3s;--p:2.3s'><path class='sh s0' pathLength='100' d='M-43 0Q190 221 421 444'/><path class='sh s1' pathLength='100' d='M-43 0Q190 221 421 444'/><path class='sh s2' pathLength='100' d='M-43 0Q190 221 421 444'/></g>
+              <g class='st rv' style='--sp:5.6s;--p:4.2s'><path class='sh s0' pathLength='100' d='M704 0Q475 222 245 444'/><path class='sh s1' pathLength='100' d='M704 0Q475 222 245 444'/><path class='sh s2' pathLength='100' d='M704 0Q475 222 245 444'/></g>
+              <g class='st' style='--sp:5.1s;--p:0.2s'><path class='sh s0' pathLength='100' d='M-214 0Q15 223 246 444'/><path class='sh s1' pathLength='100' d='M-214 0Q15 223 246 444'/><path class='sh s2' pathLength='100' d='M-214 0Q15 223 246 444'/></g>
+              <g class='st' style='--sp:5.2s;--p:0.6s'><path class='sh s0' pathLength='100' d='M-117 0Q119 222 354 444'/><path class='sh s1' pathLength='100' d='M-117 0Q119 222 354 444'/><path class='sh s2' pathLength='100' d='M-117 0Q119 222 354 444'/></g>
+              <g class='st' style='--sp:3.0s;--p:2.9s'><path class='sh s0' pathLength='100' d='M24 407C100 402 240 410 316 408'/><path class='sh s1' pathLength='100' d='M24 407C100 402 240 410 316 408'/><path class='sh s2' pathLength='100' d='M24 407C100 402 240 410 316 408'/></g>
+              <g class='st' style='--sp:6.3s;--p:4.8s'><path class='sh s0' pathLength='100' d='M264 0C270 170 252 300 268 444'/><path class='sh s1' pathLength='100' d='M264 0C270 170 252 300 268 444'/><path class='sh s2' pathLength='100' d='M264 0C270 170 252 300 268 444'/></g>
+              <g class='st' style='--sp:6.4s;--p:1.2s'><path class='sh s0' pathLength='100' d='M114 0C121 170 110 300 121 444'/><path class='sh s1' pathLength='100' d='M114 0C121 170 110 300 121 444'/><path class='sh s2' pathLength='100' d='M114 0C121 170 110 300 121 444'/></g>
+              <g class='st' style='--sp:4.8s;--p:0.7s'><path class='sh s0' pathLength='100' d='M24 37C100 34 240 34 316 37'/><path class='sh s1' pathLength='100' d='M24 37C100 34 240 34 316 37'/><path class='sh s2' pathLength='100' d='M24 37C100 34 240 34 316 37'/></g>
+              <g class='st rv' style='--sp:5.0s;--p:2.0s'><path class='sh s0' pathLength='100' d='M159 0Q396 221 632 444'/><path class='sh s1' pathLength='100' d='M159 0Q396 221 632 444'/><path class='sh s2' pathLength='100' d='M159 0Q396 221 632 444'/></g>
+              <g class='st' style='--sp:5.2s;--p:2.4s'><path class='sh s0' pathLength='100' d='M24 194C100 194 240 190 316 191'/><path class='sh s1' pathLength='100' d='M24 194C100 194 240 190 316 191'/><path class='sh s2' pathLength='100' d='M24 194C100 194 240 190 316 191'/></g>
+              <g class='st' style='--sp:3.2s;--p:1.8s'><path class='sh s0' pathLength='100' d='M24 188C100 193 240 187 316 190'/><path class='sh s1' pathLength='100' d='M24 188C100 193 240 187 316 190'/><path class='sh s2' pathLength='100' d='M24 188C100 193 240 187 316 190'/></g>
+              <g class='st' style='--sp:4.8s;--p:1.3s'><path class='sh s0' pathLength='100' d='M24 356C100 354 240 352 316 357'/><path class='sh s1' pathLength='100' d='M24 356C100 354 240 352 316 357'/><path class='sh s2' pathLength='100' d='M24 356C100 354 240 352 316 357'/></g>
+              <g class='st rv' style='--sp:4.3s;--p:1.5s'><path class='sh s0' pathLength='100' d='M398 0Q175 224 -51 444'/><path class='sh s1' pathLength='100' d='M398 0Q175 224 -51 444'/><path class='sh s2' pathLength='100' d='M398 0Q175 224 -51 444'/></g>
+              <g class='st' style='--sp:2.7s;--p:4.1s'><path class='sh s0' pathLength='100' d='M-12 0Q225 222 461 444'/><path class='sh s1' pathLength='100' d='M-12 0Q225 222 461 444'/><path class='sh s2' pathLength='100' d='M-12 0Q225 222 461 444'/></g>
+              <g class='st rv' style='--sp:6.3s;--p:0.4s'><path class='sh s0' pathLength='100' d='M221 0Q446 223 672 444'/><path class='sh s1' pathLength='100' d='M221 0Q446 223 672 444'/><path class='sh s2' pathLength='100' d='M221 0Q446 223 672 444'/></g>
+              <g class='st' style='--sp:6.3s;--p:0.3s'><path class='sh s0' pathLength='100' d='M118 0Q-107 223 -335 444'/><path class='sh s1' pathLength='100' d='M118 0Q-107 223 -335 444'/><path class='sh s2' pathLength='100' d='M118 0Q-107 223 -335 444'/></g>
+              <g class='st rv' style='--sp:5.9s;--p:2.6s'><path class='sh s0' pathLength='100' d='M24 250C100 251 240 248 316 249'/><path class='sh s1' pathLength='100' d='M24 250C100 251 240 248 316 249'/><path class='sh s2' pathLength='100' d='M24 250C100 251 240 248 316 249'/></g>
+              <g class='st' style='--sp:4.8s;--p:2.3s'><path class='sh s0' pathLength='100' d='M102 0Q328 221 552 444'/><path class='sh s1' pathLength='100' d='M102 0Q328 221 552 444'/><path class='sh s2' pathLength='100' d='M102 0Q328 221 552 444'/></g>
+              <g class='st rv' style='--sp:5.0s;--p:2.7s'><path class='sh s0' pathLength='100' d='M-194 0Q30 223 256 444'/><path class='sh s1' pathLength='100' d='M-194 0Q30 223 256 444'/><path class='sh s2' pathLength='100' d='M-194 0Q30 223 256 444'/></g>
+              <g class='st' style='--sp:3.5s;--p:1.5s'><path class='sh s0' pathLength='100' d='M55 0Q281 222 506 444'/><path class='sh s1' pathLength='100' d='M55 0Q281 222 506 444'/><path class='sh s2' pathLength='100' d='M55 0Q281 222 506 444'/></g>
+              <g class='st' style='--sp:4.9s;--p:2.9s'><path class='sh s0' pathLength='100' d='M185 0Q-49 222 -282 444'/><path class='sh s1' pathLength='100' d='M185 0Q-49 222 -282 444'/><path class='sh s2' pathLength='100' d='M185 0Q-49 222 -282 444'/></g>
+              <g class='st rv' style='--sp:4.8s;--p:0.4s'><path class='sh s0' pathLength='100' d='M310 0Q76 222 -159 444'/><path class='sh s1' pathLength='100' d='M310 0Q76 222 -159 444'/><path class='sh s2' pathLength='100' d='M310 0Q76 222 -159 444'/></g>
+              <g class='st' style='--sp:3.9s;--p:1.0s'><path class='sh s0' pathLength='100' d='M259 0Q29 221 -200 444'/><path class='sh s1' pathLength='100' d='M259 0Q29 221 -200 444'/><path class='sh s2' pathLength='100' d='M259 0Q29 221 -200 444'/></g>
+              <g class='st rv' style='--sp:5.1s;--p:1.6s'><path class='sh s0' pathLength='100' d='M70 0Q-163 222 -397 444'/><path class='sh s1' pathLength='100' d='M70 0Q-163 222 -397 444'/><path class='sh s2' pathLength='100' d='M70 0Q-163 222 -397 444'/></g>
+              <g class='st rv' style='--sp:2.9s;--p:3.1s'><path class='sh s0' pathLength='100' d='M-350 0Q-118 223 115 444'/><path class='sh s1' pathLength='100' d='M-350 0Q-118 223 115 444'/><path class='sh s2' pathLength='100' d='M-350 0Q-118 223 115 444'/></g>
+              <g class='st rv' style='--sp:5.9s;--p:4.6s'><path class='sh s0' pathLength='100' d='M294 0Q70 224 -157 444'/><path class='sh s1' pathLength='100' d='M294 0Q70 224 -157 444'/><path class='sh s2' pathLength='100' d='M294 0Q70 224 -157 444'/></g>
+              <g class='st rv' style='--sp:4.5s;--p:4.6s'><path class='sh s0' pathLength='100' d='M169 0C170 170 160 300 168 444'/><path class='sh s1' pathLength='100' d='M169 0C170 170 160 300 168 444'/><path class='sh s2' pathLength='100' d='M169 0C170 170 160 300 168 444'/></g>
+              <g class='st' style='--sp:3.8s;--p:1.8s'><path class='sh s0' pathLength='100' d='M8 0Q241 224 476 444'/><path class='sh s1' pathLength='100' d='M8 0Q241 224 476 444'/><path class='sh s2' pathLength='100' d='M8 0Q241 224 476 444'/></g>
+              <g class='st rv' style='--sp:5.9s;--p:3.0s'><path class='sh s0' pathLength='100' d='M361 0Q139 222 -83 444'/><path class='sh s1' pathLength='100' d='M361 0Q139 222 -83 444'/><path class='sh s2' pathLength='100' d='M361 0Q139 222 -83 444'/></g>
+              <g class='st' style='--sp:5.0s;--p:2.1s'><path class='sh s0' pathLength='100' d='M194 0C184 170 186 300 204 444'/><path class='sh s1' pathLength='100' d='M194 0C184 170 186 300 204 444'/><path class='sh s2' pathLength='100' d='M194 0C184 170 186 300 204 444'/></g>
+              <g class='st' style='--sp:5.0s;--p:4.8s'><path class='sh s0' pathLength='100' d='M24 373C100 372 240 374 316 375'/><path class='sh s1' pathLength='100' d='M24 373C100 372 240 374 316 375'/><path class='sh s2' pathLength='100' d='M24 373C100 372 240 374 316 375'/></g>
+              <g class='st' style='--sp:3.8s;--p:1.2s'><path class='sh s0' pathLength='100' d='M497 0Q268 222 40 444'/><path class='sh s1' pathLength='100' d='M497 0Q268 222 40 444'/><path class='sh s2' pathLength='100' d='M497 0Q268 222 40 444'/></g>
+              <g class='st rv' style='--sp:2.8s;--p:1.1s'><path class='sh s0' pathLength='100' d='M232 0Q460 221 686 444'/><path class='sh s1' pathLength='100' d='M232 0Q460 221 686 444'/><path class='sh s2' pathLength='100' d='M232 0Q460 221 686 444'/></g>
+              <g class='st rv' style='--sp:3.7s;--p:0.5s'><path class='sh s0' pathLength='100' d='M45 0Q278 224 514 444'/><path class='sh s1' pathLength='100' d='M45 0Q278 224 514 444'/><path class='sh s2' pathLength='100' d='M45 0Q278 224 514 444'/></g>
+              <g class='st rv' style='--sp:6.0s;--p:1.4s'><path class='sh s0' pathLength='100' d='M260 0C259 170 271 300 253 444'/><path class='sh s1' pathLength='100' d='M260 0C259 170 271 300 253 444'/><path class='sh s2' pathLength='100' d='M260 0C259 170 271 300 253 444'/></g>
+              <g class='st' style='--sp:5.9s;--p:4.3s'><path class='sh s0' pathLength='100' d='M571 0Q344 223 114 444'/><path class='sh s1' pathLength='100' d='M571 0Q344 223 114 444'/><path class='sh s2' pathLength='100' d='M571 0Q344 223 114 444'/></g>
+              <g class='st rv' style='--sp:3.2s;--p:3.9s'><path class='sh s0' pathLength='100' d='M269 0Q42 220 -181 444'/><path class='sh s1' pathLength='100' d='M269 0Q42 220 -181 444'/><path class='sh s2' pathLength='100' d='M269 0Q42 220 -181 444'/></g>
+              <g class='st rv' style='--sp:6.3s;--p:2.6s'><path class='sh s0' pathLength='100' d='M507 0Q280 224 49 444'/><path class='sh s1' pathLength='100' d='M507 0Q280 224 49 444'/><path class='sh s2' pathLength='100' d='M507 0Q280 224 49 444'/></g>
+              <g class='st rv' style='--sp:3.6s;--p:3.1s'><path class='sh s0' pathLength='100' d='M-58 0Q176 220 407 444'/><path class='sh s1' pathLength='100' d='M-58 0Q176 220 407 444'/><path class='sh s2' pathLength='100' d='M-58 0Q176 220 407 444'/></g>
+              <g class='st' style='--sp:2.9s;--p:3.2s'><path class='sh s0' pathLength='100' d='M123 0Q347 223 572 444'/><path class='sh s1' pathLength='100' d='M123 0Q347 223 572 444'/><path class='sh s2' pathLength='100' d='M123 0Q347 223 572 444'/></g>
+              <g class='st rv' style='--sp:5.4s;--p:1.1s'><path class='sh s0' pathLength='100' d='M279 0Q55 223 -171 444'/><path class='sh s1' pathLength='100' d='M279 0Q55 223 -171 444'/><path class='sh s2' pathLength='100' d='M279 0Q55 223 -171 444'/></g>
+              <g class='st' style='--sp:4.8s;--p:4.7s'><path class='sh s0' pathLength='100' d='M658 0Q430 223 200 444'/><path class='sh s1' pathLength='100' d='M658 0Q430 223 200 444'/><path class='sh s2' pathLength='100' d='M658 0Q430 223 200 444'/></g>
+              <g class='st rv' style='--sp:5.5s;--p:4.5s'><path class='sh s0' pathLength='100' d='M-354 0Q-131 221 92 444'/><path class='sh s1' pathLength='100' d='M-354 0Q-131 221 92 444'/><path class='sh s2' pathLength='100' d='M-354 0Q-131 221 92 444'/></g>
+              <g class='st rv' style='--sp:3.4s;--p:3.6s'><path class='sh s0' pathLength='100' d='M24 26C100 22 240 25 316 23'/><path class='sh s1' pathLength='100' d='M24 26C100 22 240 25 316 23'/><path class='sh s2' pathLength='100' d='M24 26C100 22 240 25 316 23'/></g>
+              <g class='st' style='--sp:3.5s;--p:3.0s'><path class='sh s0' pathLength='100' d='M512 0Q280 221 48 444'/><path class='sh s1' pathLength='100' d='M512 0Q280 221 48 444'/><path class='sh s2' pathLength='100' d='M512 0Q280 221 48 444'/></g>
+              <g class='st rv' style='--sp:3.7s;--p:0.0s'><path class='sh s0' pathLength='100' d='M-230 0Q1 223 235 444'/><path class='sh s1' pathLength='100' d='M-230 0Q1 223 235 444'/><path class='sh s2' pathLength='100' d='M-230 0Q1 223 235 444'/></g>
+              <g class='st' style='--sp:3.1s;--p:2.2s'><path class='sh s0' pathLength='100' d='M-6 0Q226 223 461 444'/><path class='sh s1' pathLength='100' d='M-6 0Q226 223 461 444'/><path class='sh s2' pathLength='100' d='M-6 0Q226 223 461 444'/></g>
+              <g class='st rv' style='--sp:5.6s;--p:2.1s'><path class='sh s0' pathLength='100' d='M223 0C226 170 226 300 216 444'/><path class='sh s1' pathLength='100' d='M223 0C226 170 226 300 216 444'/><path class='sh s2' pathLength='100' d='M223 0C226 170 226 300 216 444'/></g>
+              <g class='st' style='--sp:6.4s;--p:4.2s'><path class='sh s0' pathLength='100' d='M711 0Q478 224 242 444'/><path class='sh s1' pathLength='100' d='M711 0Q478 224 242 444'/><path class='sh s2' pathLength='100' d='M711 0Q478 224 242 444'/></g>
+              <g class='st rv' style='--sp:5.4s;--p:2.0s'><path class='sh s0' pathLength='100' d='M61 0Q288 222 514 444'/><path class='sh s1' pathLength='100' d='M61 0Q288 222 514 444'/><path class='sh s2' pathLength='100' d='M61 0Q288 222 514 444'/></g>
+              <g class='st rv' style='--sp:5.6s;--p:5.0s'><path class='sh s0' pathLength='100' d='M24 32C100 31 240 33 316 33'/><path class='sh s1' pathLength='100' d='M24 32C100 31 240 33 316 33'/><path class='sh s2' pathLength='100' d='M24 32C100 31 240 33 316 33'/></g>
+              <g class='st' style='--sp:4.7s;--p:4.8s'><path class='sh s0' pathLength='100' d='M40 0Q268 220 492 444'/><path class='sh s1' pathLength='100' d='M40 0Q268 220 492 444'/><path class='sh s2' pathLength='100' d='M40 0Q268 220 492 444'/></g>
+              <g class='st rv' style='--sp:4.9s;--p:0.9s'><path class='sh s0' pathLength='100' d='M-189 0Q43 223 277 444'/><path class='sh s1' pathLength='100' d='M-189 0Q43 223 277 444'/><path class='sh s2' pathLength='100' d='M-189 0Q43 223 277 444'/></g>
+              <g class='st rv' style='--sp:6.1s;--p:1.3s'><path class='sh s0' pathLength='100' d='M24 20C100 18 240 25 316 19'/><path class='sh s1' pathLength='100' d='M24 20C100 18 240 25 316 19'/><path class='sh s2' pathLength='100' d='M24 20C100 18 240 25 316 19'/></g>
+              <g class='st rv' style='--sp:4.5s;--p:1.3s'><path class='sh s0' pathLength='100' d='M151 0C165 170 165 300 145 444'/><path class='sh s1' pathLength='100' d='M151 0C165 170 165 300 145 444'/><path class='sh s2' pathLength='100' d='M151 0C165 170 165 300 145 444'/></g>
+              <g class='st rv' style='--sp:5.5s;--p:5.0s'><path class='sh s0' pathLength='100' d='M24 149C100 149 240 154 316 152'/><path class='sh s1' pathLength='100' d='M24 149C100 149 240 154 316 152'/><path class='sh s2' pathLength='100' d='M24 149C100 149 240 154 316 152'/></g>
+              <g class='st rv' style='--sp:5.1s;--p:1.9s'><path class='sh s0' pathLength='100' d='M24 166C100 171 240 166 316 166'/><path class='sh s1' pathLength='100' d='M24 166C100 171 240 166 316 166'/><path class='sh s2' pathLength='100' d='M24 166C100 171 240 166 316 166'/></g>
+              <g class='st' style='--sp:3.3s;--p:2.2s'><path class='sh s0' pathLength='100' d='M621 0Q392 221 165 444'/><path class='sh s1' pathLength='100' d='M621 0Q392 221 165 444'/><path class='sh s2' pathLength='100' d='M621 0Q392 221 165 444'/></g>
+              <g class='st' style='--sp:3.6s;--p:1.1s'><path class='sh s0' pathLength='100' d='M263 0Q38 222 -188 444'/><path class='sh s1' pathLength='100' d='M263 0Q38 222 -188 444'/><path class='sh s2' pathLength='100' d='M263 0Q38 222 -188 444'/></g>
+              <g class='st' style='--sp:4.9s;--p:1.0s'><path class='sh s0' pathLength='100' d='M108 0Q-123 222 -355 444'/><path class='sh s1' pathLength='100' d='M108 0Q-123 222 -355 444'/><path class='sh s2' pathLength='100' d='M108 0Q-123 222 -355 444'/></g>
+              <g class='st rv' style='--sp:4.4s;--p:0.3s'><path class='sh s0' pathLength='100' d='M228 0C221 170 237 300 231 444'/><path class='sh s1' pathLength='100' d='M228 0C221 170 237 300 231 444'/><path class='sh s2' pathLength='100' d='M228 0C221 170 237 300 231 444'/></g>
+              <g class='st rv' style='--sp:4.4s;--p:2.2s'><path class='sh s0' pathLength='100' d='M-127 0Q105 220 334 444'/><path class='sh s1' pathLength='100' d='M-127 0Q105 220 334 444'/><path class='sh s2' pathLength='100' d='M-127 0Q105 220 334 444'/></g>
+              <g class='st' style='--sp:4.7s;--p:1.0s'><path class='sh s0' pathLength='100' d='M352 0Q131 223 -93 444'/><path class='sh s1' pathLength='100' d='M352 0Q131 223 -93 444'/><path class='sh s2' pathLength='100' d='M352 0Q131 223 -93 444'/></g>
+              <g class='st' style='--sp:5.7s;--p:1.9s'><path class='sh s0' pathLength='100' d='M128 0Q-101 220 -327 444'/><path class='sh s1' pathLength='100' d='M128 0Q-101 220 -327 444'/><path class='sh s2' pathLength='100' d='M128 0Q-101 220 -327 444'/></g>
+              <g class='st rv' style='--sp:5.2s;--p:0.2s'><path class='sh s0' pathLength='100' d='M-266 0Q-36 223 196 444'/><path class='sh s1' pathLength='100' d='M-266 0Q-36 223 196 444'/><path class='sh s2' pathLength='100' d='M-266 0Q-36 223 196 444'/></g>
+              <g class='st' style='--sp:4.1s;--p:4.3s'><path class='sh s0' pathLength='100' d='M134 0Q369 221 601 444'/><path class='sh s1' pathLength='100' d='M134 0Q369 221 601 444'/><path class='sh s2' pathLength='100' d='M134 0Q369 221 601 444'/></g>
+              <g class='st rv' style='--sp:6.0s;--p:0.5s'><path class='sh s0' pathLength='100' d='M24 104C100 106 240 107 316 103'/><path class='sh s1' pathLength='100' d='M24 104C100 106 240 107 316 103'/><path class='sh s2' pathLength='100' d='M24 104C100 106 240 107 316 103'/></g>
+              <g class='st rv' style='--sp:3.7s;--p:4.1s'><path class='sh s0' pathLength='100' d='M61 0Q-170 223 -403 444'/><path class='sh s1' pathLength='100' d='M61 0Q-170 223 -403 444'/><path class='sh s2' pathLength='100' d='M61 0Q-170 223 -403 444'/></g>
+              <g class='st rv' style='--sp:2.9s;--p:2.7s'><path class='sh s0' pathLength='100' d='M118 0Q342 220 562 444'/><path class='sh s1' pathLength='100' d='M118 0Q342 220 562 444'/><path class='sh s2' pathLength='100' d='M118 0Q342 220 562 444'/></g>
+              <g class='st rv' style='--sp:3.8s;--p:4.0s'><path class='sh s0' pathLength='100' d='M24 334C100 334 240 334 316 332'/><path class='sh s1' pathLength='100' d='M24 334C100 334 240 334 316 332'/><path class='sh s2' pathLength='100' d='M24 334C100 334 240 334 316 332'/></g>
+              <g class='st rv' style='--sp:5.2s;--p:0.8s'><path class='sh s0' pathLength='100' d='M211 0Q-23 221 -255 444'/><path class='sh s1' pathLength='100' d='M211 0Q-23 221 -255 444'/><path class='sh s2' pathLength='100' d='M211 0Q-23 221 -255 444'/></g>
+              <g class='st' style='--sp:3.2s;--p:3.7s'><path class='sh s0' pathLength='100' d='M180 0Q-50 224 -283 444'/><path class='sh s1' pathLength='100' d='M180 0Q-50 224 -283 444'/><path class='sh s2' pathLength='100' d='M180 0Q-50 224 -283 444'/></g>
+              <g class='st rv' style='--sp:4.6s;--p:1.9s'><path class='sh s0' pathLength='100' d='M24 267C100 268 240 267 316 269'/><path class='sh s1' pathLength='100' d='M24 267C100 268 240 267 316 269'/><path class='sh s2' pathLength='100' d='M24 267C100 268 240 267 316 269'/></g>
+              <g class='st' style='--sp:4.6s;--p:0.4s'><path class='sh s0' pathLength='100' d='M24 160C100 157 240 161 316 158'/><path class='sh s1' pathLength='100' d='M24 160C100 157 240 161 316 158'/><path class='sh s2' pathLength='100' d='M24 160C100 157 240 161 316 158'/></g>
+              <g class='st' style='--sp:3.0s;--p:1.5s'><path class='sh s0' pathLength='100' d='M81 0Q309 221 535 444'/><path class='sh s1' pathLength='100' d='M81 0Q309 221 535 444'/><path class='sh s2' pathLength='100' d='M81 0Q309 221 535 444'/></g>
+              <g class='st rv' style='--sp:5.0s;--p:4.2s'><path class='sh s0' pathLength='100' d='M207 0Q445 221 681 444'/><path class='sh s1' pathLength='100' d='M207 0Q445 221 681 444'/><path class='sh s2' pathLength='100' d='M207 0Q445 221 681 444'/></g>
+              <g class='st' style='--sp:4.9s;--p:2.3s'><path class='sh s0' pathLength='100' d='M65 0Q-168 223 -403 444'/><path class='sh s1' pathLength='100' d='M65 0Q-168 223 -403 444'/><path class='sh s2' pathLength='100' d='M65 0Q-168 223 -403 444'/></g>
+              <g class='st' style='--sp:3.2s;--p:1.7s'><path class='sh s0' pathLength='100' d='M-95 0Q142 222 379 444'/><path class='sh s1' pathLength='100' d='M-95 0Q142 222 379 444'/><path class='sh s2' pathLength='100' d='M-95 0Q142 222 379 444'/></g>
+              <g class='st rv' style='--sp:5.5s;--p:0.2s'><path class='sh s0' pathLength='100' d='M4 0Q228 221 450 444'/><path class='sh s1' pathLength='100' d='M4 0Q228 221 450 444'/><path class='sh s2' pathLength='100' d='M4 0Q228 221 450 444'/></g>
+              <g class='st' style='--sp:4.5s;--p:1.6s'><path class='sh s0' pathLength='100' d='M-27 0Q207 222 441 444'/><path class='sh s1' pathLength='100' d='M-27 0Q207 222 441 444'/><path class='sh s2' pathLength='100' d='M-27 0Q207 222 441 444'/></g>
+              <g class='st rv' style='--sp:3.8s;--p:2.0s'><path class='sh s0' pathLength='100' d='M372 0Q138 223 -98 444'/><path class='sh s1' pathLength='100' d='M372 0Q138 223 -98 444'/><path class='sh s2' pathLength='100' d='M372 0Q138 223 -98 444'/></g>
+              <g class='st rv' style='--sp:5.2s;--p:1.2s'><path class='sh s0' pathLength='100' d='M-173 0Q49 222 272 444'/><path class='sh s1' pathLength='100' d='M-173 0Q49 222 272 444'/><path class='sh s2' pathLength='100' d='M-173 0Q49 222 272 444'/></g>
+              <g class='st' style='--sp:5.7s;--p:4.7s'><path class='sh s0' pathLength='100' d='M-455 0Q-225 221 3 444'/><path class='sh s1' pathLength='100' d='M-455 0Q-225 221 3 444'/><path class='sh s2' pathLength='100' d='M-455 0Q-225 221 3 444'/></g>
+              <g class='st' style='--sp:4.0s;--p:2.5s'><path class='sh s0' pathLength='100' d='M-111 0Q121 222 354 444'/><path class='sh s1' pathLength='100' d='M-111 0Q121 222 354 444'/><path class='sh s2' pathLength='100' d='M-111 0Q121 222 354 444'/></g>
+              <g class='st' style='--sp:4.6s;--p:4.3s'><path class='sh s0' pathLength='100' d='M-313 0Q-85 221 141 444'/><path class='sh s1' pathLength='100' d='M-313 0Q-85 221 141 444'/><path class='sh s2' pathLength='100' d='M-313 0Q-85 221 141 444'/></g>
+              <g class='st rv' style='--sp:4.2s;--p:4.7s'><path class='sh s0' pathLength='100' d='M-241 0Q-10 221 219 444'/><path class='sh s1' pathLength='100' d='M-241 0Q-10 221 219 444'/><path class='sh s2' pathLength='100' d='M-241 0Q-10 221 219 444'/></g>
+              <g class='st rv' style='--sp:3.9s;--p:4.6s'><path class='sh s0' pathLength='100' d='M-262 0Q-39 222 183 444'/><path class='sh s1' pathLength='100' d='M-262 0Q-39 222 183 444'/><path class='sh s2' pathLength='100' d='M-262 0Q-39 222 183 444'/></g>
+              <g class='st' style='--sp:5.1s;--p:3.4s'><path class='sh s0' pathLength='100' d='M77 0Q-161 222 -400 444'/><path class='sh s1' pathLength='100' d='M77 0Q-161 222 -400 444'/><path class='sh s2' pathLength='100' d='M77 0Q-161 222 -400 444'/></g>
+              <g class='st' style='--sp:5.1s;--p:0.2s'><path class='sh s0' pathLength='100' d='M24 345C100 343 240 348 316 346'/><path class='sh s1' pathLength='100' d='M24 345C100 343 240 348 316 346'/><path class='sh s2' pathLength='100' d='M24 345C100 343 240 348 316 346'/></g>
+              <g class='st rv' style='--sp:5.0s;--p:2.3s'><path class='sh s0' pathLength='100' d='M-417 0Q-182 223 53 444'/><path class='sh s1' pathLength='100' d='M-417 0Q-182 223 53 444'/><path class='sh s2' pathLength='100' d='M-417 0Q-182 223 53 444'/></g>
+              <g class='st' style='--sp:3.6s;--p:4.1s'><path class='sh s0' pathLength='100' d='M155 0Q382 223 612 444'/><path class='sh s1' pathLength='100' d='M155 0Q382 223 612 444'/><path class='sh s2' pathLength='100' d='M155 0Q382 223 612 444'/></g>
+              <g class='st rv' style='--sp:4.4s;--p:1.4s'><path class='sh s0' pathLength='100' d='M-375 0Q-148 220 76 444'/><path class='sh s1' pathLength='100' d='M-375 0Q-148 220 76 444'/><path class='sh s2' pathLength='100' d='M-375 0Q-148 220 76 444'/></g>
+              <g class='st rv' style='--sp:3.4s;--p:3.4s'><path class='sh s0' pathLength='100' d='M-205 0Q23 222 252 444'/><path class='sh s1' pathLength='100' d='M-205 0Q23 222 252 444'/><path class='sh s2' pathLength='100' d='M-205 0Q23 222 252 444'/></g>
+              <g class='st' style='--sp:5.0s;--p:1.8s'><path class='sh s0' pathLength='100' d='M24 306C100 309 240 308 316 305'/><path class='sh s1' pathLength='100' d='M24 306C100 309 240 308 316 305'/><path class='sh s2' pathLength='100' d='M24 306C100 309 240 308 316 305'/></g>
+              <g class='st rv' style='--sp:5.9s;--p:3.9s'><path class='sh s0' pathLength='100' d='M-448 0Q-215 223 19 444'/><path class='sh s1' pathLength='100' d='M-448 0Q-215 223 19 444'/><path class='sh s2' pathLength='100' d='M-448 0Q-215 223 19 444'/></g>
+              <g class='st' style='--sp:5.8s;--p:4.3s'><path class='sh s0' pathLength='100' d='M777 0Q538 221 301 444'/><path class='sh s1' pathLength='100' d='M777 0Q538 221 301 444'/><path class='sh s2' pathLength='100' d='M777 0Q538 221 301 444'/></g>
+              <g class='st' style='--sp:2.9s;--p:2.0s'><path class='sh s0' pathLength='100' d='M555 0Q330 221 106 444'/><path class='sh s1' pathLength='100' d='M555 0Q330 221 106 444'/><path class='sh s2' pathLength='100' d='M555 0Q330 221 106 444'/></g>
+              <g class='st rv' style='--sp:2.6s;--p:3.5s'><path class='sh s0' pathLength='100' d='M752 0Q522 223 290 444'/><path class='sh s1' pathLength='100' d='M752 0Q522 223 290 444'/><path class='sh s2' pathLength='100' d='M752 0Q522 223 290 444'/></g>
+              <g class='st rv' style='--sp:3.9s;--p:0.9s'><path class='sh s0' pathLength='100' d='M24 272C100 277 240 270 316 271'/><path class='sh s1' pathLength='100' d='M24 272C100 277 240 270 316 271'/><path class='sh s2' pathLength='100' d='M24 272C100 277 240 270 316 271'/></g>
+              <g class='st' style='--sp:5.1s;--p:3.7s'><path class='sh s0' pathLength='100' d='M674 0Q436 221 200 444'/><path class='sh s1' pathLength='100' d='M674 0Q436 221 200 444'/><path class='sh s2' pathLength='100' d='M674 0Q436 221 200 444'/></g>
+              <g class='st' style='--sp:5.9s;--p:0.7s'><path class='sh s0' pathLength='100' d='M91 0Q-137 221 -363 444'/><path class='sh s1' pathLength='100' d='M91 0Q-137 221 -363 444'/><path class='sh s2' pathLength='100' d='M91 0Q-137 221 -363 444'/></g>
+              <g class='st rv' style='--sp:5.8s;--p:2.4s'><path class='sh s0' pathLength='100' d='M539 0Q304 221 71 444'/><path class='sh s1' pathLength='100' d='M539 0Q304 221 71 444'/><path class='sh s2' pathLength='100' d='M539 0Q304 221 71 444'/></g>
+              <g class='st rv' style='--sp:4.4s;--p:1.2s'><path class='sh s0' pathLength='100' d='M715 0Q481 222 247 444'/><path class='sh s1' pathLength='100' d='M715 0Q481 222 247 444'/><path class='sh s2' pathLength='100' d='M715 0Q481 222 247 444'/></g>
+              <g class='st rv' style='--sp:3.7s;--p:4.9s'><path class='sh s0' pathLength='100' d='M123 0Q-113 220 -346 444'/><path class='sh s1' pathLength='100' d='M123 0Q-113 220 -346 444'/><path class='sh s2' pathLength='100' d='M123 0Q-113 220 -346 444'/></g>
+              <g class='st rv' style='--sp:2.9s;--p:0.5s'><path class='sh s0' pathLength='100' d='M24 429C100 426 240 425 316 428'/><path class='sh s1' pathLength='100' d='M24 429C100 426 240 425 316 428'/><path class='sh s2' pathLength='100' d='M24 429C100 426 240 425 316 428'/></g>
+              <g class='st rv' style='--sp:3.0s;--p:4.3s'><path class='sh s0' pathLength='100' d='M66 0Q290 222 513 444'/><path class='sh s1' pathLength='100' d='M66 0Q290 222 513 444'/><path class='sh s2' pathLength='100' d='M66 0Q290 222 513 444'/></g>
+              <g class='st rv' style='--sp:3.1s;--p:2.2s'><path class='sh s0' pathLength='100' d='M274 0Q48 223 -179 444'/><path class='sh s1' pathLength='100' d='M274 0Q48 223 -179 444'/><path class='sh s2' pathLength='100' d='M274 0Q48 223 -179 444'/></g>
+              <g class='st rv' style='--sp:5.2s;--p:3.0s'><path class='sh s0' pathLength='100' d='M-287 0Q-56 221 173 444'/><path class='sh s1' pathLength='100' d='M-287 0Q-56 221 173 444'/><path class='sh s2' pathLength='100' d='M-287 0Q-56 221 173 444'/></g>
+              <g class='st rv' style='--sp:3.2s;--p:0.0s'><path class='sh s0' pathLength='100' d='M-329 0Q-108 224 117 444'/><path class='sh s1' pathLength='100' d='M-329 0Q-108 224 117 444'/><path class='sh s2' pathLength='100' d='M-329 0Q-108 224 117 444'/></g>
+              <g class='st rv' style='--sp:3.2s;--p:4.7s'><path class='sh s0' pathLength='100' d='M24 177C100 176 240 174 316 177'/><path class='sh s1' pathLength='100' d='M24 177C100 176 240 174 316 177'/><path class='sh s2' pathLength='100' d='M24 177C100 176 240 174 316 177'/></g>
+              <g class='st rv' style='--sp:4.8s;--p:4.3s'><path class='sh s0' pathLength='100' d='M24 9C100 12 240 9 316 12'/><path class='sh s1' pathLength='100' d='M24 9C100 12 240 9 316 12'/><path class='sh s2' pathLength='100' d='M24 9C100 12 240 9 316 12'/></g>
+              <g class='st' style='--sp:5.7s;--p:2.3s'><path class='sh s0' pathLength='100' d='M285 0Q517 220 746 444'/><path class='sh s1' pathLength='100' d='M285 0Q517 220 746 444'/><path class='sh s2' pathLength='100' d='M285 0Q517 220 746 444'/></g>
+              <g class='st' style='--sp:3.1s;--p:3.7s'><path class='sh s0' pathLength='100' d='M196 0Q430 223 665 444'/><path class='sh s1' pathLength='100' d='M196 0Q430 223 665 444'/><path class='sh s2' pathLength='100' d='M196 0Q430 223 665 444'/></g>
+              <g class='st rv' style='--sp:3.5s;--p:3.3s'><path class='sh s0' pathLength='100' d='M201 0Q-29 222 -260 444'/><path class='sh s1' pathLength='100' d='M201 0Q-29 222 -260 444'/><path class='sh s2' pathLength='100' d='M201 0Q-29 222 -260 444'/></g>
+              <g class='st' style='--sp:3.5s;--p:2.6s'><path class='sh s0' pathLength='100' d='M64 0C53 170 60 300 56 444'/><path class='sh s1' pathLength='100' d='M64 0C53 170 60 300 56 444'/><path class='sh s2' pathLength='100' d='M64 0C53 170 60 300 56 444'/></g>
+              <g class='st' style='--sp:3.7s;--p:1.2s'><path class='sh s0' pathLength='100' d='M151 0C145 170 150 300 146 444'/><path class='sh s1' pathLength='100' d='M151 0C145 170 150 300 146 444'/><path class='sh s2' pathLength='100' d='M151 0C145 170 150 300 146 444'/></g>
+              <g class='st' style='--sp:3.3s;--p:3.0s'><path class='sh s0' pathLength='100' d='M226 0Q-6 224 -240 444'/><path class='sh s1' pathLength='100' d='M226 0Q-6 224 -240 444'/><path class='sh s2' pathLength='100' d='M226 0Q-6 224 -240 444'/></g>
+              <g class='st rv' style='--sp:4.4s;--p:0.4s'><path class='sh s0' pathLength='100' d='M52 0C40 170 61 300 52 444'/><path class='sh s1' pathLength='100' d='M52 0C40 170 61 300 52 444'/><path class='sh s2' pathLength='100' d='M52 0C40 170 61 300 52 444'/></g>
+              <g class='st rv' style='--sp:4.2s;--p:1.1s'><path class='sh s0' pathLength='100' d='M197 0C205 170 184 300 197 444'/><path class='sh s1' pathLength='100' d='M197 0C205 170 184 300 197 444'/><path class='sh s2' pathLength='100' d='M197 0C205 170 184 300 197 444'/></g>
+              <g class='st rv' style='--sp:5.2s;--p:1.9s'><path class='sh s0' pathLength='100' d='M24 200C100 204 240 199 316 199'/><path class='sh s1' pathLength='100' d='M24 200C100 204 240 199 316 199'/><path class='sh s2' pathLength='100' d='M24 200C100 204 240 199 316 199'/></g>
+              <g class='st rv' style='--sp:5.1s;--p:1.2s'><path class='sh s0' pathLength='100' d='M434 0Q197 222 -42 444'/><path class='sh s1' pathLength='100' d='M434 0Q197 222 -42 444'/><path class='sh s2' pathLength='100' d='M434 0Q197 222 -42 444'/></g>
+              <g class='st rv' style='--sp:4.5s;--p:3.4s'><path class='sh s0' pathLength='100' d='M455 0Q230 222 5 444'/><path class='sh s1' pathLength='100' d='M455 0Q230 222 5 444'/><path class='sh s2' pathLength='100' d='M455 0Q230 222 5 444'/></g>
+              <g class='st rv' style='--sp:3.0s;--p:4.4s'><path class='sh s0' pathLength='100' d='M259 0Q482 223 708 444'/><path class='sh s1' pathLength='100' d='M259 0Q482 223 708 444'/><path class='sh s2' pathLength='100' d='M259 0Q482 223 708 444'/></g>
+              <g class='st' style='--sp:5.2s;--p:1.8s'><path class='sh s0' pathLength='100' d='M24 110C100 109 240 108 316 108'/><path class='sh s1' pathLength='100' d='M24 110C100 109 240 108 316 108'/><path class='sh s2' pathLength='100' d='M24 110C100 109 240 108 316 108'/></g>
+              <g class='st rv' style='--sp:4.5s;--p:4.3s'><path class='sh s0' pathLength='100' d='M559 0Q328 222 97 444'/><path class='sh s1' pathLength='100' d='M559 0Q328 222 97 444'/><path class='sh s2' pathLength='100' d='M559 0Q328 222 97 444'/></g>
+              <g class='st rv' style='--sp:4.2s;--p:3.0s'><path class='sh s0' pathLength='100' d='M741 0Q511 222 280 444'/><path class='sh s1' pathLength='100' d='M741 0Q511 222 280 444'/><path class='sh s2' pathLength='100' d='M741 0Q511 222 280 444'/></g>
+              <g class='st' style='--sp:4.3s;--p:2.2s'><path class='sh s0' pathLength='100' d='M-308 0Q-70 222 168 444'/><path class='sh s1' pathLength='100' d='M-308 0Q-70 222 168 444'/><path class='sh s2' pathLength='100' d='M-308 0Q-70 222 168 444'/></g>
+              <g class='st' style='--sp:6.5s;--p:2.2s'><path class='sh s0' pathLength='100' d='M97 0C84 170 106 300 108 444'/><path class='sh s1' pathLength='100' d='M97 0C84 170 106 300 108 444'/><path class='sh s2' pathLength='100' d='M97 0C84 170 106 300 108 444'/></g>
+              </g>
+             </g>
+            </g>
+            <g class='fx-musc'>
+              <rect class='m' style='--i:0' x='75' y='198' width='34' height='100' rx='17'/>
+              <rect class='m' style='--i:1' x='231' y='198' width='34' height='100' rx='17'/>
+              <rect class='m' style='--i:2' x='77' y='334' width='34' height='100' rx='17'/>
+              <rect class='m' style='--i:3' x='229' y='334' width='34' height='100' rx='17'/>
+            </g>
+            <g class='fx-skel'>
+              <path class='fx-draw' pathLength='100' d='M104 166H236'/>
+              <path class='fx-draw' style='--k:.3s' pathLength='100' d='M92 204V292'/>
+              <path class='fx-draw' style='--k:.45s' pathLength='100' d='M248 204V292'/>
+              <path class='fx-draw' style='--k:.6s' pathLength='100' d='M94 340V428'/>
+              <path class='fx-draw' style='--k:.75s' pathLength='100' d='M246 340V428'/>
+            </g>
+            <g class='fx-nerv'>
+              <path class='fx-draw' pathLength='100' d='M170 78C170 110 168 124 160 134C142 148 132 160 132 190C132 214 134 236 120 252C116 258 112 260 109 262'/>
+              <path class='fx-draw' style='--k:.15s' pathLength='100' d='M170 78C170 110 172 124 180 134C198 148 208 160 208 190C208 214 206 236 220 252C224 258 228 260 231 262'/>
+              <path class='fx-draw' style='--k:.3s' pathLength='100' d='M170 78C170 110 164 124 158 140C154 180 154 280 150 330C146 366 132 392 112 400'/>
+              <path class='fx-draw' style='--k:.45s' pathLength='100' d='M170 78C170 110 176 124 182 140C186 180 186 280 190 330C194 366 208 392 228 400'/>
+            </g>
+            <g class='fx-brain'>
+              <path class='bf' d='M130 78C124 28 216 28 210 78C210 86 192 88 170 88C148 88 130 86 130 78Z'/>
+              <path class='ha' d='M130 78C124 28 216 28 210 78C210 86 192 88 170 88C148 88 130 86 130 78Z'/>
+              <path class='hb' d='M130 78C124 28 216 28 210 78C210 86 192 88 170 88C148 88 130 86 130 78Z'/>
+              <path class='bo' d='M130 78C124 28 216 28 210 78C210 86 192 88 170 88C148 88 130 86 130 78ZM170 40V88'/>
+            </g>
+          </svg>
+        </figure>
+        <div class='fx-list'>
+          <div class='fx-item' style='--c:var(--forest);--t:1.6s'><span class='organ'>The head</span><h3>Your vision and strategy</h3><p>Where the company is going and why.</p></div>
+          <div class='fx-item' style='--c:var(--muted);--t:3s'><span class='organ'>The skeleton</span><h3>Structure, processes and tools</h3><p>The tech stack, the org chart, the way things are meant to run.</p></div>
+          <div class='fx-item' style='--c:var(--fern);--t:4.4s'><span class='organ'>The muscles</span><h3>Your teams and functions</h3><p>Sales, product, operations: the people doing the work.</p></div>
+          <div class='fx-item' style='--c:var(--deep);--t:5.9s'><span class='organ'>The nervous system</span><h3>Information and decisions</h3><p>What reaches whom, when, and in what form.</p></div>
+          <div class='fx-item last' style='--t:7.6s'>
+            <span class='organ'>The connective tissue</span>
+            <h3>Mutual understanding between the people involved</h3>
+            <p>It makes sure all parts have what they need and they pull in the same direction. <strong>You don't notice it until it's missing.</strong></p>
+          </div>
         </div>
       </div>
       <div class="col">
@@ -237,12 +499,12 @@ footer { padding-block: 24px; font-size: 0.85rem; color: var(--muted); }
         </div>
         <p class="fails-label reveal">Solutions that fail:</p>
         <div class="fixes">
-          <div class="reveal"><h3>Doing everything yourself</h3><p>The head tries to do the muscles' job too, until the bottleneck stifles growth completely.</p></div>
-          <div class="reveal" style="--d:.08s"><h3>Delegating everything</h3><p>The muscles move on their own, and you lose the overview of what's actually going on.</p></div>
-          <div class="reveal"><h3>Adding headcount</h3><p>More muscle, but nothing new connecting it to the rest.</p></div>
-          <div class="reveal" style="--d:.08s"><h3>AI automation</h3><p>Speeds up the back end, but hits its limit with the soft part of running a business: people working with people.</p></div>
+          <div class="reveal"><h3>Doing everything yourself</h3><p>You keep holding it all, until you become a bottleneck big enough to stifle growth completely. The head tries to do the muscles’ job too.</p></div>
+          <div class="reveal" style="--d:.08s"><h3>Delegating everything</h3><p>You hand it all off, and the muscles start moving on their own. You lose the overview of what’s actually going on.</p></div>
+          <div class="reveal"><h3>Adding headcount</h3><p>Hiring for specific parts of the business can be an option. But it’s more muscle with nothing new connecting it to the rest, so it doesn’t solve the main problem: the lack of connective tissue across strategy, operations and people.</p></div>
+          <div class="reveal" style="--d:.08s"><h3>AI automation</h3><p>It can help with the back end, but it hits its limit with the soft part of running a business. That is people working with people, and selling to people. Understanding what drives people’s behaviour matters as much as having the right tech stack and processes.</p></div>
         </div>
-        <p class="punch reveal">An occasional town hall doesn't replace regular two-way communication. A last-minute email asking for updates isn't alignment. And a monthly Friday happy hour won't create a healthy culture if the rest of the time people are fighting fires that could have been prevented.</p>
+        <div class="punch reveal"><p>An occasional town hall doesn’t replace regular two-way communication. A last-minute email asking for updates isn’t alignment. Hundreds of update meetings that could have been a dashboard aren’t either. And a monthly Friday happy hour won’t create a healthy culture if the rest of the time people are fighting fires that could have been prevented.</p><p style="margin-top:18px">Meanwhile, you’re beginning to feel overwhelmed but can’t let it show because you don’t want your team to be alarmed or lose trust in you. You put on a brave mask and soldier on, feeling guilty for not having the time to give the people who matter what they need to succeed. Now you’re just praying everyone’s bright enough to figure things out themselves.</p></div>
       </div>
     </div>
   </section>
@@ -251,13 +513,13 @@ footer { padding-block: 24px; font-size: 0.85rem; color: var(--muted); }
     <div class="wrap col">
       <div class="head reveal">
         <span class="eyebrow">People first</span>
-        <h2>Most people start with the business. I start with people, because people are business.</h2>
+        <h2>Most people start with the business. I start with people: what drives them, who they are, how they work together. Because people are business.</h2>
       </div>
       <p class="reveal">It's rarely a bad process or a technical fault that causes bottlenecks. It's misunderstood situations and unmet needs. So I build the connective tissue first, and then everything else has something to hold on to.</p>
       <ol class="order">
         <li class="reveal">
           <h3>I take time to understand you.</h3>
-          <p>What you're struggling with. Who you are as a leader and as a human being. What you need, what's important to you, what worries you, what gives you energy, and how you work with others.</p>
+          <p>What drives you and why winning matters to you. What the business and its mission mean to you. How you operate as a leader, what are your strengths and blind spots, what you need, what gives you energy and what worries you, and how you work with others.</p>
         </li>
         <li class="reveal">
           <h3>Then your leadership team and your board.</h3>
@@ -355,7 +617,7 @@ footer { padding-block: 24px; font-size: 0.85rem; color: var(--muted); }
     <div class="wrap col">
       <div class="head reveal">
         <span class="eyebrow">Why me</span>
-        <h2>I'm done accepting burnout as the price of success.</h2>
+        <h2>I'm done accepting overwhelm, exhaustion and guilt as the price of success.</h2>
       </div>
       <div class="prose reveal">
         <p>Your 'let's do it' facade is cracking while you try to hold everything together. What worked for a team of 5 people no longer works when you're 15, 30, 50 people. The growth is exhilarating but it comes at a price.</p>
@@ -427,5 +689,22 @@ footer { padding-block: 24px; font-size: 0.85rem; color: var(--muted); }
   });
   // Safety net: if anything is still hidden after a long while (e.g. jumped via a link), show it.
   window.addEventListener('hashchange', function () { setTimeout(function () { items.forEach(function (el) { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('in'); }); }, 400); });
+})();
+</script>
+<script>
+// Body illustration: plays once when it scrolls into view. Without this script, or with reduced motion, everything is simply shown.
+(function () {
+  var el = document.getElementById('bodyfx');
+  if (!el) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { Array.prototype.forEach.call(el.querySelectorAll('.sh'), function (s) { s.parentNode.removeChild(s); }); return; }
+  if (!('IntersectionObserver' in window)) return;
+  el.classList.add('bodyfx-on');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { el.classList.add('play'); io.disconnect(); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  io.observe(el);
 })();
 </script>
